@@ -1,0 +1,23 @@
+{
+  "name": "mogul.js",
+  "version": "0.0.1",
+  "description": "An interpreter that evaluates λ-calculations step by step.",
+  "main": "index.js",
+  "repository": "https://github.com/todays-mitsui/mogul.js",
+  "author": "Mitsui",
+  "license": "GPL",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  },
+  "dependencies": {
+    "parsimmon": "^1.7.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack -w",
+    "test": "mocha"
+  }
+}
