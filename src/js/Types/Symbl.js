@@ -10,6 +10,11 @@ class Symbl extends Expr {
     this.ident = ident;
   }
 
+  equals(other) {
+    return this.constructor === other.constructor
+      && this.ident.label === other.ident.label;
+  }
+
   rewrite(x, expr) {
     return this;
   }
