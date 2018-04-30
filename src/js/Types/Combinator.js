@@ -1,7 +1,7 @@
 const Identifier = require('./Identifier');
-const Expr       = require('./Expr');
+const Expr = require('./Expr');
 
-class Variable extends Expr {
+class Combinator extends Expr {
   /**
    * @param {Identifier} ident
    */
@@ -17,7 +17,7 @@ class Variable extends Expr {
   }
 
   rewrite(x, expr) {
-    return this.ident.label === x.label ? expr : this;
+    return this;
   }
 
   getLabel() {
@@ -33,4 +33,4 @@ class Variable extends Expr {
   }
 }
 
-module.exports = Variable;
+module.exports = Combinator;

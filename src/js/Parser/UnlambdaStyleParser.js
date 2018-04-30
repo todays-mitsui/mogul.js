@@ -34,10 +34,10 @@ const UnlambdaStyleParser = P.createLanguage({
   lambda: r =>
     P.seqMap(
       token(P.string('^')),
-      r.variable,
+      P.alt(r.singleVariable, r.longVariable),
       token(P.string('.')),
       r.expr,
-      (_1, param, _3, body) => (new Lambda(param, body))
+      (_1, param, _3, body) => (new Lambda(new Identifier(param), body))
     )
   ,
 

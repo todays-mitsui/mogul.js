@@ -3,8 +3,8 @@ class Expr {
   /**
    * 別のλ式に自身を適用した新しいλ式をつくる
    *
-   * @param   {Expr} other
-   * @returns {Expr}
+   * @param   {Expr}  other
+   * @returns {Apply}
    */
   apply(other) {
     const Apply = require('./Apply');
@@ -39,24 +39,46 @@ class Expr {
   }
 
   /**
-   * @param   {string} label
-   * @returns {Expr}
+   * @param   {string}   label
+   * @returns {Variable}
    */
   static var(label) {
     const Identifier = require('./Identifier');
-    const Variable = require('./Variable');
+    const Variable   = require('./Variable');
 
     return new Variable(new Identifier(label));
   }
 
   /**
+   * @param   {string}     label
+   * @returns {Combinator}
+   */
+  static com(label) {
+    const Identifier = require('./Identifier');
+    const Combinator = require('./Combinator');
+
+    return new Combinator(new Identifier(label));
+  }
+
+  /**
+   * @param   {string} label
+   * @returns {Symbl}
+   */
+  static sym(label) {
+    const Identifier = require('./Identifier');
+    const Symbl = require('./Symbl');
+
+    return new Symbl(new Identifier(label));
+  }
+
+  /**
    * @param   {string} param
    * @param   {Expr}   expr
-   * @returns {Expr}
+   * @returns {Lambda}
    */
   static lambda(param, expr) {
     const Identifier = require('./Identifier');
-    const Lambda = require('./Lambda');
+    const Lambda     = require('./Lambda');
 
     return new Lambda(
       new Identifier(param),
