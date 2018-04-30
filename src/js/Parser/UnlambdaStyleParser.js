@@ -1,11 +1,10 @@
 const P = require('parsimmon');
 
-const Identifier = require('../Identifier');
-
-const Variable = require('../Expr/Variable');
-const Symbl = require('../Expr/Symbl');
-const Lambda = require('../Expr/Lambda');
-const Apply = require('../Expr/Apply');
+const Identifier = require('../Types/Identifier');
+const Variable = require('../Types/Variable');
+const Symbl = require('../Types/Symbl');
+const Lambda = require('../Types/Lambda');
+const Apply = require('../Types/Apply');
 
 
 const token = parser => ( parser.skip(P.optWhitespace) );
@@ -16,7 +15,7 @@ const UnlambdaStyleParser = P.createLanguage({
     P.alt(
       r.apply,
       r.lambda,
-      r.symbol,
+      r.symbl,
       r.variable
     )//.thru(parser => P.optWhitespace.then(parser))
   ,
@@ -50,7 +49,7 @@ const UnlambdaStyleParser = P.createLanguage({
   ,
 
   // シンボル
-  symbol: r =>
+  symbl: r =>
     P.string(':').then(P.alt(r.singleVariable, r.longVariable))
       .map(label => (new Symbl(new Identifier(label))))
       .skip(P.optWhitespace)

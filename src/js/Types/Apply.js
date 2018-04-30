@@ -12,6 +12,12 @@ class Apply extends Expr {
     this.right = right;
   }
 
+  equals(other) {
+    return this.constructor === other.constructor
+      && this.left.equals(other.left)
+      && this.right.equals(other.right);
+  }
+
   rewrite(x, expr) {
     const left  = this.left.rewrite(x, expr);
     const right = this.right.rewrite(x, expr);

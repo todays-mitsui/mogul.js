@@ -1,16 +1,21 @@
-const Identifier = require('../Identifier');
 const Expr = require('./Expr');
 
 class Lambda extends Expr {
   /**
    * @param {Identifier} param
-   * @param {Expr} body
+   * @param {Expr}       body
    */
   constructor(param, body) {
     super();
 
     this.param = param;
     this.body = body;
+  }
+
+  equals(other) {
+    return this.constructor === other.constructor
+      && this.param.label === other.param.label
+      && this.body.equals(other.body);
   }
 
   rewrite(x, expr) {
