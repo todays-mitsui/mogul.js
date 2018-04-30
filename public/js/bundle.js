@@ -82,6 +82,61 @@ eval("!function(t,r){ true?module.exports=r():undefined}(this,function(){return 
 
 /***/ }),
 
+/***/ "./src/js/Expr/Apply.js":
+/*!******************************!*\
+  !*** ./src/js/Expr/Apply.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Expr = __webpack_require__(/*! ./Expr */ \"./src/js/Expr/Expr.js\");\n\nclass Apply extends Expr {\n  /**\n   * @param {Expr} left\n   * @param {Expr} right\n   */\n  constructor(left, right) {\n    super();\n\n    this.left = left;\n    this.right = right;\n  }\n\n  rewrite(x, expr) {\n    const left  = this.left.rewrite(x, expr);\n    const right = this.right.rewrite(x, expr);\n\n    return new Apply(left, right);\n  }\n}\n\nmodule.exports = Apply;\n\n\n//# sourceURL=webpack:///./src/js/Expr/Apply.js?");
+
+/***/ }),
+
+/***/ "./src/js/Expr/Expr.js":
+/*!*****************************!*\
+  !*** ./src/js/Expr/Expr.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("class Expr {\n  /**\n   * 式の中の仮引数を別の式で置き換えた式を返す\n   *\n   * β簡約: `(^x.M)N => M[x:=N] に相当する\n   *\n   * @param {Identifier} x\n   * @param {Expr} expr\n   * @returns {Expr}\n   */\n  rewrite(x, expr) {\n    throw new Error('Not Implemented');\n  }\n}\n\nmodule.exports = Expr;\n\n\n//# sourceURL=webpack:///./src/js/Expr/Expr.js?");
+
+/***/ }),
+
+/***/ "./src/js/Expr/Lambda.js":
+/*!*******************************!*\
+  !*** ./src/js/Expr/Lambda.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Identifier = __webpack_require__(/*! ../Identifier */ \"./src/js/Identifier.js\");\nconst Expr = __webpack_require__(/*! ./Expr */ \"./src/js/Expr/Expr.js\");\n\nclass Lambda extends Expr {\n  /**\n   * @param {Identifier} param\n   * @param {Expr} body\n   */\n  constructor(param, body) {\n    super();\n\n    this.param = param;\n    this.body = body;\n  }\n\n  rewrite(x, expr) {\n    return this.param.label === x.label ? this : new Lambda(this.param, this.body.rewrite(x, expr));\n  }\n}\n\nmodule.exports = Lambda;\n\n\n//# sourceURL=webpack:///./src/js/Expr/Lambda.js?");
+
+/***/ }),
+
+/***/ "./src/js/Expr/Variable.js":
+/*!*********************************!*\
+  !*** ./src/js/Expr/Variable.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("const Expr = __webpack_require__(/*! ./Expr */ \"./src/js/Expr/Expr.js\");\n\nclass Variable extends Expr {\n  /**\n   * @param {Identifier} ident\n   */\n  constructor(ident) {\n    super();\n\n    this.ident = ident;\n  }\n\n  rewrite(x, expr) {\n    return this.ident.label === x.label ? expr : this;\n  }\n}\n\nmodule.exports = Variable;\n\n\n//# sourceURL=webpack:///./src/js/Expr/Variable.js?");
+
+/***/ }),
+
+/***/ "./src/js/Identifier.js":
+/*!******************************!*\
+  !*** ./src/js/Identifier.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("class Identifier {\n  constructor(label) {\n    this.label = label;\n  }\n}\n\nmodule.exports = Identifier;\n\n\n//# sourceURL=webpack:///./src/js/Identifier.js?");
+
+/***/ }),
+
 /***/ "./src/js/Parser/UnlambdaStyleParser.js":
 /*!**********************************************!*\
   !*** ./src/js/Parser/UnlambdaStyleParser.js ***!
@@ -89,7 +144,7 @@ eval("!function(t,r){ true?module.exports=r():undefined}(this,function(){return 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const P = __webpack_require__(/*! parsimmon */ \"./node_modules/parsimmon/build/parsimmon.umd.min.js\")\n\n\nconst token = parser => ( parser.skip(P.optWhitespace) )\n\nconst UnlambdaStyleParser = P.createLanguage({\n  // 式\n  expr: r =>\n    P.alt(\n      r.apply,\n      r.lambda,\n      r.symbol,\n      r.variable\n    )//.thru(parser => P.optWhitespace.then(parser))\n  ,\n\n  // 適用\n  apply: r =>\n    P.seqMap(\n      token(P.string('`')),\n      r.expr,\n      r.expr,\n      (_, left, right) => ({ type: 'apply', left, right })\n    )\n  ,\n\n  // 抽象\n  lambda: r =>\n    P.seqMap(\n      token(P.string('^')),\n      r.variable,\n      token(P.string('.')),\n      r.expr,\n      (_1, param, _3, body) => ({ type: 'lambda', param: param.label, body })\n    )\n  ,\n\n  // 変数\n  variable: r =>\n    P.alt(r.singleVariable, r.longVariable)\n      .map(label => ({ type: 'variable', label }))\n      .skip(P.optWhitespace)\n  ,\n\n  // シンボル\n  symbol: r =>\n    P.string(':').then(r.singleVariable, r.longVariable)\n      .map(label => ({ type: 'symbol', label }))\n      .skip(P.optWhitespace)\n  ,\n\n  singleVariable: () => token(P.range('a', 'z')),\n\n  longVariable:    () => token(P.regex(/[A-Z0-9_]+/)),\n})\n\n\nmodule.exports = UnlambdaStyleParser\n\n\n//# sourceURL=webpack:///./src/js/Parser/UnlambdaStyleParser.js?");
+eval("const P = __webpack_require__(/*! parsimmon */ \"./node_modules/parsimmon/build/parsimmon.umd.min.js\");\n\nconst Identifier = __webpack_require__(/*! ../Identifier */ \"./src/js/Identifier.js\");\n\nconst Variable = __webpack_require__(/*! ../Expr/Variable */ \"./src/js/Expr/Variable.js\");\nconst Lambda = __webpack_require__(/*! ../Expr/Lambda */ \"./src/js/Expr/Lambda.js\");\nconst Apply = __webpack_require__(/*! ../Expr/Apply */ \"./src/js/Expr/Apply.js\");\n\n\nconst token = parser => ( parser.skip(P.optWhitespace) );\n\nconst UnlambdaStyleParser = P.createLanguage({\n  // 式\n  expr: r =>\n    P.alt(\n      r.apply,\n      r.lambda,\n      r.symbol,\n      r.variable\n    )//.thru(parser => P.optWhitespace.then(parser))\n  ,\n\n  // 適用\n  apply: r =>\n    P.seqMap(\n      token(P.string('`')),\n      r.expr,\n      r.expr,\n      (_, left, right) => (new Apply(left, right))\n    )\n  ,\n\n  // 抽象\n  lambda: r =>\n    P.seqMap(\n      token(P.string('^')),\n      r.variable,\n      token(P.string('.')),\n      r.expr,\n      (_1, param, _3, body) => (new Lambda(param, body))\n    )\n  ,\n\n  // 変数\n  variable: r =>\n    P.alt(r.singleVariable, r.longVariable)\n      .map(label => (new Variable(new Identifier(label))))\n      .skip(P.optWhitespace)\n  ,\n\n  // シンボル\n  symbol: r =>\n    P.string(':').then(P.alt(r.singleVariable, r.longVariable))\n      .map(label => ({ type: 'symbol', label }))\n      .skip(P.optWhitespace)\n  ,\n\n  singleVariable: () => token(P.range('a', 'z')),\n\n  longVariable:    () => token(P.regex(/[A-Z0-9_]+/)),\n});\n\n\nmodule.exports = UnlambdaStyleParser;\n\n\n//# sourceURL=webpack:///./src/js/Parser/UnlambdaStyleParser.js?");
 
 /***/ }),
 
@@ -100,7 +155,7 @@ eval("const P = __webpack_require__(/*! parsimmon */ \"./node_modules/parsimmon/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const UnlambdaStyleParser = __webpack_require__(/*! ./Parser/UnlambdaStyleParser */ \"./src/js/Parser/UnlambdaStyleParser.js\")\n\nmodule.exports = {\n  UnlambdaStyleParser,\n}\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
+eval("const UnlambdaStyleParser = __webpack_require__(/*! ./Parser/UnlambdaStyleParser */ \"./src/js/Parser/UnlambdaStyleParser.js\");\n\nmodule.exports = {\n  UnlambdaStyleParser,\n};\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
 
 /***/ })
 

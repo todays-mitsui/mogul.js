@@ -11,7 +11,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.variable.parse(src),
         {
           status: true,
-          value: { type: 'variable', label: 'x' },
+          value: { ident: { label: 'x' } },
         }
       );
     });
@@ -23,7 +23,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.variable.parse(src),
         {
           status: true,
-          value: { type: 'variable', label: 'PLUS' },
+          value: { ident: { label: 'PLUS' } },
         }
       );
     });
@@ -35,7 +35,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.variable.parse(src),
         {
           status: true,
-          value: { type: 'variable', label: '42' },
+          value: { ident: { label: '42' } },
         }
       );
     });
@@ -47,7 +47,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.variable.parse(src),
         {
           status: true,
-          value: { type: 'variable', label: '_' },
+          value: { ident: { label: '_' } },
         }
       );
     });
@@ -61,7 +61,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.symbol.parse(src),
         {
           status: true,
-          value: { type: 'symbol', label: 'x' },
+          value: { ident: { label: 'x' } },
         }
       );
     });
@@ -73,7 +73,7 @@ describe('UnlambdaStyleParser', function () {
         UnlambdaStyleParser.symbol.parse(src),
         {
           status: true,
-          value: { type: 'symbol', label: 'PLUS' },
+          value: { ident: { label: 'PLUS' } },
         }
       );
     });
@@ -88,9 +88,8 @@ describe('UnlambdaStyleParser', function () {
         {
           status: true,
           value: {
-            type: 'apply',
-            left: { type: 'variable', label: 'x' },
-            right: { type: 'variable', label: 'y' },
+            left: { ident: { label: 'x' } },
+            right: { ident: { label: 'y' } },
           },
         }
       );
@@ -104,16 +103,13 @@ describe('UnlambdaStyleParser', function () {
         {
           status: true,
           value: {
-            type: 'apply',
             left: {
-              type: 'apply',
-              left: { type: 'variable', label: 'x' },
-              right: { type: 'variable', label: 'z' },
+              left: { ident: { label: 'x' } },
+              right: { ident: { label: 'z' } },
             },
             right: {
-              type: 'apply',
-              left: { type: 'variable', label: 'y' },
-              right: { type: 'variable', label: 'z' },
+              left: { ident: { label: 'y' } },
+              right: { ident: { label: 'z' } },
             },
           },
         }
