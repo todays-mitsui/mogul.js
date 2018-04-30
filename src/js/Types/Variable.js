@@ -1,3 +1,4 @@
+const Identifier = require('./Identifier');
 const Expr = require('./Expr');
 
 class Variable extends Expr {
@@ -8,6 +9,14 @@ class Variable extends Expr {
     super();
 
     this.ident = ident;
+  }
+
+  /**
+   * @param   {string} label
+   * @returns {Expr}
+   */
+  static create(label) {
+    return new this(new Identifier(label));
   }
 
   equals(other) {

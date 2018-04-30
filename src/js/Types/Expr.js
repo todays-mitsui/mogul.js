@@ -1,4 +1,20 @@
+
 class Expr {
+  /**
+   * 別のλ式に自身を適用した新しいλ式をつくる
+   *
+   * @param   {Expr} other
+   * @returns {Expr}
+   */
+  apply(other) {
+    const Apply = require('./Apply');
+
+    return new Apply(
+      /* left  = */ this,
+      /* right = */ other
+    );
+  }
+
   /**
    * ２つのλ式の等値比較をする
    *
