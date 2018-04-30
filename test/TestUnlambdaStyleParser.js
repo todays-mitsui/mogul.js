@@ -1,10 +1,10 @@
 const assert = require('chai').assert
 
 const Identifier = require('../src/js/Types/Identifier');
-const Variable = require('../src/js/Types/Variable');
-const Symbl = require('../src/js/Types/Symbl');
-const Lambda = require('../src/js/Types/Lambda');
-const Apply = require('../src/js/Types/Apply');
+const Variable   = require('../src/js/Types/Variable');
+const Symbl      = require('../src/js/Types/Symbl');
+const Lambda     = require('../src/js/Types/Lambda');
+const Apply      = require('../src/js/Types/Apply');
 
 const UnlambdaStyleParser = require('../src/js/Parser/UnlambdaStyleParser')
 
