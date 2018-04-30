@@ -37,6 +37,32 @@ class Expr {
   rewrite(x, expr) {
     throw new Error('Not Implemented');
   }
+
+  /**
+   * @param   {string} label
+   * @returns {Expr}
+   */
+  static var(label) {
+    const Identifier = require('./Identifier');
+    const Variable = require('./Variable');
+
+    return new Variable(new Identifier(label));
+  }
+
+  /**
+   * @param   {string} param
+   * @param   {Expr}   expr
+   * @returns {Expr}
+   */
+  static lambda(param, expr) {
+    const Identifier = require('./Identifier');
+    const Lambda = require('./Lambda');
+
+    return new Lambda(
+      new Identifier(param),
+      expr
+    );
+  }
 }
 
 module.exports = Expr;
