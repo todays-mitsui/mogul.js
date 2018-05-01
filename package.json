@@ -13,6 +13,7 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
+    "lodash": "^4.17.10",
     "parsimmon": "^1.7.2"
   },
   "scripts": {

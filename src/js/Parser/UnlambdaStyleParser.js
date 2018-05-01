@@ -1,10 +1,12 @@
 const P = require('parsimmon');
 
 const Identifier = require('../Types/Identifier');
-const Variable = require('../Types/Variable');
-const Symbl = require('../Types/Symbl');
-const Lambda = require('../Types/Lambda');
-const Apply = require('../Types/Apply');
+const Variable   = require('../Types/Variable');
+const Symbl      = require('../Types/Symbl');
+const Lambda     = require('../Types/Lambda');
+const Apply      = require('../Types/Apply');
+
+const Func = require('../Types/Func');
 
 
 const token = parser => ( parser.skip(P.optWhitespace) );
@@ -34,30 +36,59 @@ const UnlambdaStyleParser = P.createLanguage({
   lambda: r =>
     P.seqMap(
       token(P.string('^')),
-      P.alt(r.singleVariable, r.longVariable),
+      r.ident,
       token(P.string('.')),
       r.expr,
-      (_1, param, _3, body) => (new Lambda(new Identifier(param), body))
+      (_1, param, _3, body) => ( new Lambda(param, body) )
     )
   ,
 
   // 変数
   variable: r =>
-    P.alt(r.singleVariable, r.longVariable)
-      .map(label => (new Variable(new Identifier(label))))
+    r.ident.map(ident => new Variable(ident))
       .skip(P.optWhitespace)
   ,
 
   // シンボル
   symbl: r =>
-    P.string(':').then(P.alt(r.singleVariable, r.longVariable))
-      .map(label => (new Symbl(new Identifier(label))))
+    P.string(':').then(r.ident)
+      .map(ident => new Symbl(ident))
       .skip(P.optWhitespace)
+  ,
+
+  ident: r =>
+    P.alt(r.singleVariable, r.longVariable)
+      .map(label => new Identifier(label))
   ,
 
   singleVariable: () => token(P.range('a', 'z')),
 
   longVariable:   () => token(P.regex(/[A-Z0-9_]+/)),
+
+  def: r =>
+    P.seqMap(
+      r.lvalue,
+      token(P.string('=')),
+      r.expr,
+      ([funcName, params], _, bareExpr) => ( [funcName, new Func(params, bareExpr)] )
+    )
+  ,
+
+  lvalue: r =>
+    P.alt(
+      r.lvalue_,
+      r.ident.map(ident => [ident, []])
+    ).skip(P.optWhitespace)
+  ,
+
+  lvalue_: r =>
+    P.seqMap(
+      token(P.string('`')),
+      r.lvalue,
+      r.ident,
+      (_, [funcName, params], param) => ( [funcName, [].concat(params, [param])] )
+    ).skip(P.optWhitespace)
+  ,
 });
 
 
