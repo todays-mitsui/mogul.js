@@ -6,6 +6,8 @@ const Symbl      = require('../src/js/Types/Symbl');
 const Lambda     = require('../src/js/Types/Lambda');
 const Apply      = require('../src/js/Types/Apply');
 
+const Func       = require('../src/js/Types/Func');
+
 const UnlambdaStyleParser = require('../src/js/Parser/UnlambdaStyleParser')
 
 
@@ -145,6 +147,70 @@ describe('UnlambdaStyleParser', function () {
           ),
         }
       );
+    });
+  });
+
+  describe('関数定義', function() {
+    it('関数定義の左辺値', function() {
+      const src = '```fxyz';
+      const parseResult = UnlambdaStyleParser.lvalue.parse(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          status: true,
+          value: [
+            new Identifier('f'),
+            [
+              new Identifier('x'),
+              new Identifier('y'),
+              new Identifier('z'),
+            ],
+          ]
+        }
+      );
+    });
+
+    it('全ての式が左辺値になれる訳ではない', function() {
+      const src = '``fx`fz';
+      const parseResult = UnlambdaStyleParser.lvalue.parse(src);
+
+      assert.isNotOk(parseResult.status);
+    });
+
+    it('関数定義', function() {
+      const src = '``fxy=`yx';
+      const parseResult = UnlambdaStyleParser.def.parse(src);
+
+      assert.instanceOf(parseResult.value[0], Identifier);
+      assert.instanceOf(parseResult.value[1], Func);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          status: true,
+          value: [
+            new Identifier('f'),
+            new Func(
+              /* params = */ [
+                new Identifier('x'),
+                new Identifier('y'),
+              ],
+              /* bareExpr = */ new Apply(
+                new Variable(new Identifier('y')),
+                new Variable(new Identifier('x'))
+              )
+            ),
+          ]
+        }
+      );
+    });
+
+    it('左辺値が不正ならば関数定義全体も不正', function() {
+      const src = '``fx`fz=x';
+      const parseResult = UnlambdaStyleParser.def.parse(src);
+
+      assert.isNotOk(parseResult.status);
     });
   });
 });
