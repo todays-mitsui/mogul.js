@@ -39,6 +39,19 @@ class Expr {
   }
 
   /**
+   * λ式を pretty print する
+   *
+   * @returns {string}
+   */
+  pp() {
+    if (this.constructor.PRETTY_PRINTER) {
+      return this.constructor.PRETTY_PRINTER(this);
+    } else {
+      return this.toString();
+    }
+  }
+
+  /**
    * @param   {string}   label
    * @returns {Variable}
    */
@@ -77,6 +90,14 @@ class Expr {
     const Lambda     = require('./Lambda');
 
     return new Lambda(param, expr);
+  }
+
+  static get PRETTY_PRINTER() {
+    return this._PRETTY_PRINTER;
+  }
+
+  static set PRETTY_PRINTER(prettyPrinter) {
+    this._PRETTY_PRINTER = prettyPrinter;
   }
 }
 

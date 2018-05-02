@@ -14,11 +14,9 @@ class Func {
   }
 
   equals(other) {
-    if (this.constructor !== other.constructor) { return false; }
-
-    if (!_.isEqual(this.params, other.params)) { return false; }
-
-    return this.bareExpr.equals(other.bareExpr);
+    return this.constructor === other.constructor
+      && _.isEqual(this.params, other.params)
+      && this.bareExpr.equals(other.bareExpr);
   }
 
   /**
