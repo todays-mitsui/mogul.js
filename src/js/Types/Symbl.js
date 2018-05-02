@@ -2,17 +2,17 @@ const Expr = require('./Expr');
 
 class Symbl extends Expr {
   /**
-   * @param {Identifier} ident
+   * @param {string} label
    */
-  constructor(ident) {
+  constructor(label) {
     super();
 
-    this.ident = ident;
+    this.label = label;
   }
 
   equals(other) {
     return this.constructor === other.constructor
-      && this.ident.label === other.ident.label;
+      && this.label === other.label;
   }
 
   rewrite(x, expr) {

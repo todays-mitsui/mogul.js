@@ -1,14 +1,12 @@
 const _ = require('lodash');
 
-const Identifier = require('./Identifier');
-
 const Lambda = require('./Lambda');
 const Expr   = require('./Expr');
 
 class Func {
   /**
-   * @param {Identifier[]}   params
-   * @param {Expr} bareExpr
+   * @param {string[]} params
+   * @param {Expr}     bareExpr
    */
   constructor(params, bareExpr) {
     this.params = params;

@@ -30,8 +30,8 @@ class Expr {
    *
    * β簡約: `(^x.M)N => M[x:=N] に相当する
    *
-   * @param   {Identifier} x
-   * @param   {Expr}       expr
+   * @param   {string} x
+   * @param   {Expr}   expr
    * @returns {Expr}
    */
   rewrite(x, expr) {
@@ -43,10 +43,9 @@ class Expr {
    * @returns {Variable}
    */
   static var(label) {
-    const Identifier = require('./Identifier');
-    const Variable   = require('./Variable');
+    const Variable = require('./Variable');
 
-    return new Variable(new Identifier(label));
+    return new Variable(label);
   }
 
   /**
@@ -54,10 +53,9 @@ class Expr {
    * @returns {Combinator}
    */
   static com(label) {
-    const Identifier = require('./Identifier');
     const Combinator = require('./Combinator');
 
-    return new Combinator(new Identifier(label));
+    return new Combinator(label);
   }
 
   /**
@@ -65,10 +63,9 @@ class Expr {
    * @returns {Symbl}
    */
   static sym(label) {
-    const Identifier = require('./Identifier');
     const Symbl = require('./Symbl');
 
-    return new Symbl(new Identifier(label));
+    return new Symbl(label);
   }
 
   /**
@@ -77,13 +74,9 @@ class Expr {
    * @returns {Lambda}
    */
   static lambda(param, expr) {
-    const Identifier = require('./Identifier');
     const Lambda     = require('./Lambda');
 
-    return new Lambda(
-      new Identifier(param),
-      expr
-    );
+    return new Lambda(param, expr);
   }
 }
 
