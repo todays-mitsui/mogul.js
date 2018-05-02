@@ -1,6 +1,5 @@
 const P = require('parsimmon');
 
-const Identifier = require('../Types/Identifier');
 const Variable   = require('../Types/Variable');
 const Symbl      = require('../Types/Symbl');
 const Lambda     = require('../Types/Lambda');
@@ -28,7 +27,7 @@ const UnlambdaStyleParser = P.createLanguage({
       token(P.string('`')),
       r.expr,
       r.expr,
-      (_, left, right) => (new Apply(left, right))
+      (_, left, right) => ( new Apply(left, right) )
     )
   ,
 
@@ -56,15 +55,16 @@ const UnlambdaStyleParser = P.createLanguage({
       .skip(P.optWhitespace)
   ,
 
+  // 識別子
   ident: r =>
     P.alt(r.singleVariable, r.longVariable)
-      .map(label => new Identifier(label))
   ,
 
   singleVariable: () => token(P.range('a', 'z')),
 
   longVariable:   () => token(P.regex(/[A-Z0-9_]+/)),
 
+  // 関数定義
   def: r =>
     P.seqMap(
       r.lvalue,
@@ -74,13 +74,13 @@ const UnlambdaStyleParser = P.createLanguage({
     )
   ,
 
+  // 関数定義の左辺値
   lvalue: r =>
     P.alt(
       r.lvalue_,
       r.ident.map(ident => [ident, []])
     ).skip(P.optWhitespace)
   ,
-
   lvalue_: r =>
     P.seqMap(
       token(P.string('`')),

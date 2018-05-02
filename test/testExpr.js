@@ -1,36 +1,27 @@
 const assert = require('chai').assert
 
-const Identifier = require('../src/js/Types/Identifier');
-const Variable   = require('../src/js/Types/Variable');
-const Symbl      = require('../src/js/Types/Symbl');
-const Lambda     = require('../src/js/Types/Lambda');
-const Apply      = require('../src/js/Types/Apply');
-const Expr       = require('../src/js/Types/Expr');
+const Variable = require('../src/js/Types/Variable');
+const Symbl    = require('../src/js/Types/Symbl');
+const Lambda   = require('../src/js/Types/Lambda');
+const Apply    = require('../src/js/Types/Apply');
+const Expr     = require('../src/js/Types/Expr');
 
 
 describe('Expr', function () {
   describe('λ式の生成', function() {
     it('変数の生成', function() {
-      const x1 = Variable.create('x');
-      const x2 = new Variable(new Identifier('x'));
-
-      assert.instanceOf(x1, Variable);
-      assert.isOk(x1.equals(x2));
-    });
-
-    it('変数の生成', function() {
       const x1 = Expr.var('x');
-      const x2 = new Variable(new Identifier('x'));
+      const x2 = new Variable('x');
 
       assert.instanceOf(x1, Variable);
-      assert.isOk(x1.equals(x2));
+      assert.isTrue(x1.equals(x2));
     });
 
     it('関数抽象の生成', function() {
       const e1 = Expr.lambda('x', Expr.var('y'));
       const e2 = new Lambda(
-        new Identifier('x'),
-        new Variable(new Identifier('y'))
+        'x',
+        new Variable('y')
       );
 
       assert.instanceOf(e1, Lambda);
@@ -38,12 +29,12 @@ describe('Expr', function () {
     });
 
     it('関数適用の生成', function() {
-      const x = Variable.create('x');
-      const y = Variable.create('y');
+      const x = Expr.var('x');
+      const y = Expr.var('y');
 
       const xy = new Apply(
-        new Variable(new Identifier('x')),
-        new Variable(new Identifier('y'))
+        Expr.var('x'),
+        Expr.var('y')
       );
 
       assert.strictEqual(
@@ -51,29 +42,23 @@ describe('Expr', function () {
         xy.constructor
       );
 
-      assert.deepEqual(
-        x.apply(y),
-        new Apply(
-          new Variable(new Identifier('x')),
-          new Variable(new Identifier('y'))
-        )
-      )
+      assert.isTrue(x.apply(y).equals(xy));
     });
   });
 
   describe('等値比較', function() {
     it('x === x', function () {
-      const x1 = Variable.create('x');
-      const x2 = Variable.create('x');
+      const x1 = new Variable('x');
+      const x2 = new Variable('x');
 
-      assert.isOk(x1.equals(x2));
+      assert.isTrue(x1.equals(x2));
     });
 
     it('x !== y', function () {
-      const x = Variable.create('x');
-      const y = Variable.create('y');
+      const x = new Variable('x');
+      const y = new Variable('y');
 
-      assert.isNotOk(x.equals(y));
+      assert.isFalse(x.equals(y));
     });
 
     it('``xz`yz === ``xz`yz', function() {
@@ -84,7 +69,7 @@ describe('Expr', function () {
         .apply(Expr.var('z'))
         .apply(Expr.var('y').apply(Expr.var('z')));
 
-      assert.isOk(e1.equals(e2));
+      assert.isTrue(e1.equals(e2));
     });
 
     it('``xz`yz !== ```xzyz', function() {
@@ -96,10 +81,7 @@ describe('Expr', function () {
         .apply(Expr.var('y'))
         .apply(Expr.var('z'));
 
-      assert.isNotOk(e1.equals(e2));
+      assert.isFalse(e1.equals(e2));
     });
   });
 });
-
-describe('Expr', function () {
-})

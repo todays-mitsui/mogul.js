@@ -1,35 +1,22 @@
-const Identifier = require('./Identifier');
 const Expr = require('./Expr');
 
 class Combinator extends Expr {
   /**
-   * @param {Identifier} ident
+   * @param {string} label
    */
-  constructor(ident) {
+  constructor(label) {
     super();
 
-    this.ident = ident;
+    this.label = label;
   }
 
   equals(other) {
     return this.constructor === other.constructor
-      && this.ident.label === other.ident.label;
+      && this.label === other.label;
   }
 
   rewrite(x, expr) {
     return this;
-  }
-
-  getLabel() {
-    return this.ident.label;
-  }
-
-  /**
-   * @param   {string} label
-   * @returns {Expr}
-   */
-  static create(label) {
-    return new this(new Identifier(label));
   }
 }
 

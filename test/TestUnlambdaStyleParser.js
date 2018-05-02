@@ -1,12 +1,11 @@
 const assert = require('chai').assert
 
-const Identifier = require('../src/js/Types/Identifier');
-const Variable   = require('../src/js/Types/Variable');
-const Symbl      = require('../src/js/Types/Symbl');
-const Lambda     = require('../src/js/Types/Lambda');
-const Apply      = require('../src/js/Types/Apply');
+const Variable = require('../src/js/Types/Variable');
+const Symbl    = require('../src/js/Types/Symbl');
+const Lambda   = require('../src/js/Types/Lambda');
+const Apply    = require('../src/js/Types/Apply');
 
-const Func       = require('../src/js/Types/Func');
+const Func = require('../src/js/Types/Func');
 
 const UnlambdaStyleParser = require('../src/js/Parser/UnlambdaStyleParser')
 
@@ -23,7 +22,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Variable(new Identifier('x')),
+          value: new Variable('x'),
         }
       );
     });
@@ -38,7 +37,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Variable(new Identifier('PLUS')),
+          value: new Variable('PLUS'),
         }
       );
     });
@@ -53,7 +52,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Variable(new Identifier('42')),
+          value: new Variable('42'),
         }
       );
     });
@@ -68,7 +67,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Variable(new Identifier('_')),
+          value: new Variable('_'),
         }
       );
     });
@@ -85,7 +84,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Symbl(new Identifier('x')),
+          value: new Symbl('x'),
         }
       );
     });
@@ -100,7 +99,7 @@ describe('UnlambdaStyleParser', function () {
         parseResult,
         {
           status: true,
-          value: new Symbl(new Identifier('PLUS')),
+          value: new Symbl('PLUS'),
         }
       );
     });
@@ -118,8 +117,8 @@ describe('UnlambdaStyleParser', function () {
         {
           status: true,
           value: new Apply(
-            new Variable(new Identifier('x')),
-            new Variable(new Identifier('y')),
+            new Variable('x'),
+            new Variable('y'),
           ),
         }
       );
@@ -137,12 +136,12 @@ describe('UnlambdaStyleParser', function () {
           status: true,
           value: new Apply(
             new Apply(
-              new Variable(new Identifier('x')),
-              new Variable(new Identifier('z'))
+              new Variable('x'),
+              new Variable('z')
             ),
             new Apply(
-              new Variable(new Identifier('y')),
-              new Variable(new Identifier('z'))
+              new Variable('y'),
+              new Variable('z')
             )
           ),
         }
@@ -160,12 +159,8 @@ describe('UnlambdaStyleParser', function () {
         {
           status: true,
           value: [
-            new Identifier('f'),
-            [
-              new Identifier('x'),
-              new Identifier('y'),
-              new Identifier('z'),
-            ],
+            'f',
+            ['x', 'y', 'z'],
           ]
         }
       );
@@ -182,7 +177,7 @@ describe('UnlambdaStyleParser', function () {
       const src = '``fxy=`yx';
       const parseResult = UnlambdaStyleParser.def.parse(src);
 
-      assert.instanceOf(parseResult.value[0], Identifier);
+      assert.isString(parseResult.value[0]);
       assert.instanceOf(parseResult.value[1], Func);
 
       assert.deepEqual(
@@ -190,15 +185,12 @@ describe('UnlambdaStyleParser', function () {
         {
           status: true,
           value: [
-            new Identifier('f'),
+            'f',
             new Func(
-              /* params = */ [
-                new Identifier('x'),
-                new Identifier('y'),
-              ],
+              /* params = */ ['x', 'y'],
               /* bareExpr = */ new Apply(
-                new Variable(new Identifier('y')),
-                new Variable(new Identifier('x'))
+                new Variable('y'),
+                new Variable('x')
               )
             ),
           ]

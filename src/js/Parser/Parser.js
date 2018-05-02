@@ -1,6 +1,5 @@
 const UnlambdaStyleParser = require('./UnlambdaStyleParser');
 
-const Identifier = require('../Types/Identifier');
 const Variable   = require('../Types/Variable');
 const Combinator = require('../Types/Combinator');
 const Symbl      = require('../Types/Symbl');
@@ -27,13 +26,11 @@ const Func = require('../Types/Func');
 function normalize(set, expr) {
   switch (true) {
     case expr instanceof Variable: {
-      const label = expr.getLabel();
-      return set.has(label) ? expr : Expr.com(label);
+      return set.has(expr.label) ? expr : Expr.com(expr.label);
     }
 
     case expr instanceof Combinator: {
-      const label = expr.getLabel();
-      return set.has(label) ? Expr.var(label) : expr;
+      return set.has(expr.label) ? Expr.var(expr.label) : expr;
     }
 
     case expr instanceof Symbl: {
@@ -48,7 +45,7 @@ function normalize(set, expr) {
     }
 
     case expr instanceof Lambda: {
-      set.add(expr.param.label);
+      set.add(expr.param);
       return new Lambda(
         expr.param,
         normalize(set, expr.body)
@@ -62,8 +59,7 @@ function normalize(set, expr) {
  * @returns {Func}
  */
 function normalizeFunc(func) {
-  const labels = func.params.map(ident => ident.label);
-  const set = new Set(labels);
+  const set = new Set(func.params);
 
   return new Func(
     func.params,
@@ -71,6 +67,10 @@ function normalizeFunc(func) {
   );
 }
 
+/**
+ * @param   {string} src
+ * @returns {Expr}
+ */
 function parseExpr(src) {
   const expr = UnlambdaStyleParser.expr.tryParse(src);
 
@@ -78,16 +78,28 @@ function parseExpr(src) {
   return normalize(emptySet, expr);
 }
 
+/**
+ * @param   {string} src
+ * @returns {Expr}
+ */
 function parseDefs(src) {
   const parseResults = UnlambdaStyleParser.def.many().tryParse(src);
   const normalizedPairs =  parseResults.map(([funcName, func]) => (
-    [funcName.label, normalizeFunc(func)]
+    [funcName, normalizeFunc(func)]
   ));
 
   return new Map(normalizedPairs);
 }
 
+/**
+ * @param   {string} src
+ * @returns {Expr}
+ */
+function parseCommand(src) {
+}
+
 module.exports = {
   parseExpr,
   parseDefs,
+  parseCommand,
 };
