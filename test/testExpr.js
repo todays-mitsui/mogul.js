@@ -1,10 +1,11 @@
 const assert = require('chai').assert
 
-const Variable = require('../src/js/Types/Variable');
-const Symbl    = require('../src/js/Types/Symbl');
-const Lambda   = require('../src/js/Types/Lambda');
-const Apply    = require('../src/js/Types/Apply');
-const Expr     = require('../src/js/Types/Expr');
+const Variable   = require('../src/js/Types/Variable');
+const Combinator = require('../src/js/Types/Combinator');
+const Symbl      = require('../src/js/Types/Symbl');
+const Lambda     = require('../src/js/Types/Lambda');
+const Apply      = require('../src/js/Types/Apply');
+const Expr       = require('../src/js/Types/Expr');
 
 
 describe('Expr', function () {
@@ -83,5 +84,66 @@ describe('Expr', function () {
 
       assert.isFalse(e1.equals(e2));
     });
+  });
+});
+
+describe('Expr とその子クラスには PrettyPrinter を持たせられる', function () {
+  Expr.PRETTY_PRINTER = function() {};
+
+  it('Expr.PRETTY_PRINTER', function() {
+    assert.exists(Expr.PRETTY_PRINTER);
+  });
+
+  it('Variable.PRETTY_PRINTER', function() {
+    assert.equal(Variable.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
+  });
+
+  it('Combinator.PRETTY_PRINTER', function() {
+    assert.equal(Combinator.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
+  });
+
+  it('Symbl.PRETTY_PRINTER', function() {
+    assert.equal(Symbl.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
+  });
+
+  it('Lambda.PRETTY_PRINTER', function() {
+    assert.equal(Lambda.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
+  });
+
+  it('Apply.PRETTY_PRINTER', function() {
+    assert.equal(Apply.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
+  });
+});
+
+describe('PrettyPrint', function() {
+  it('^x.^y.^z.``xz`yz', function() {
+    const expr = new Lambda(
+      'x',
+      new Lambda(
+        'y',
+        new Lambda(
+          'z',
+          Expr.var('x')
+            .apply(Expr.var('z'))
+            .apply(Expr.var('y').apply(Expr.var('z')))
+        )
+      )
+    );
+
+    const prettyPrinter = require('../src/js/PrettyPrinter/UnlambdaStylePrettyPrinter');
+    Expr.PRETTY_PRINTER = prettyPrinter;
+
+    assert.equal(expr.pp(), '^x.^y.^z.``xz`yz');
+  });
+
+  it('``FOO BAR BUZ', function() {
+    const expr = Expr.var('FOO')
+      .apply(Expr.var('BAR'))
+      .apply(Expr.var('BUZ'));
+
+      const prettyPrinter = require('../src/js/PrettyPrinter/UnlambdaStylePrettyPrinter');
+      Expr.PRETTY_PRINTER = prettyPrinter;
+
+    assert.equal(expr.pp(), '``FOO BAR BUZ');
   });
 });
