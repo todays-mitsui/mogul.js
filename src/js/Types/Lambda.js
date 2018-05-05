@@ -21,6 +21,10 @@ class Lambda extends Expr {
   rewrite(x, expr) {
     return this.param === x ? this : new Lambda(this.param, this.body.rewrite(x, expr));
   }
+
+  invoke(expr) {
+    return this.body.rewrite(this.param, expr);
+  }
 }
 
 module.exports = Lambda;
