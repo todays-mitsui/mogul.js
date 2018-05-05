@@ -9,6 +9,7 @@ const Apply      = require('../Types/Apply');
 // pp(Expr.lambda('x', Expr.lambda('y', Expr.com(y).apply(Expr.com('x')))));
 // => '^x.^y.`yx'
 
+// TODO: このクラス無くて良さそう
 class Token {
   /**
    * @param {string} label
@@ -18,19 +19,31 @@ class Token {
     this.wideIdentifier = label.length > 1;
   }
 
+  /**
+   * @returns {bool}
+   */
   isWideIdentifier() {
     return this.wideIdentifier;
   }
 
+  /**
+   * @returns {string}
+   */
   toString() {
     return this.label;
   }
-}
 
-const TOKENS = {
-  hat: new Token('^'),
-  dot: new Token('.'),
-  backquot: new Token('`'),
+  static get hat() {
+    return new this('^');
+  }
+
+  static get dot() {
+    return new this('.');
+  }
+
+  static get backquot() {
+    return new this('`');
+  }
 }
 
 /**
@@ -67,7 +80,7 @@ function tokenize_(expr) {
 
     case expr instanceof Apply: {
       return [
-        TOKENS.backquot,
+        Token.backquot,
         tokenize_(expr.left),
         tokenize_(expr.right),
       ];
@@ -75,9 +88,9 @@ function tokenize_(expr) {
 
     case expr instanceof Lambda: {
       return [
-        TOKENS.hat,
+        Token.hat,
         new Token(expr.param),
-        TOKENS.dot,
+        Token.dot,
         tokenize_(expr.body),
       ];
     }

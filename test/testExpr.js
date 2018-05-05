@@ -114,3 +114,35 @@ describe('Expr とその子クラスには PrettyPrinter を持たせられる',
     assert.equal(Apply.PRETTY_PRINTER, Expr.PRETTY_PRINTER);
   });
 });
+
+describe('rewrite', function () {
+  it('(``xz`yz)[z:=i]', function() {
+    expr1 = Expr.var('x')
+      .apply(Expr.var('z'))
+      .apply(Expr.var('y').apply(Expr.var('z')));
+
+    expr2 = Expr.var('x')
+      .apply(Expr.com('i'))
+      .apply(Expr.var('y').apply(Expr.com('i')));
+
+    assert.isTrue(
+      expr1.rewrite('z', Expr.com('i')).equals(expr2)
+    );
+  });
+
+  it('`^x.xx[x:=y]', function() {
+    expr1 = new Apply(
+      new Lambda('x', Expr.var('x')),
+      Expr.var('x')
+    );
+
+    expr2 = new Apply(
+      new Lambda('x', Expr.var('x')),
+      Expr.com('y')
+    );
+
+    assert.isTrue(
+      expr1.rewrite('x', Expr.com('y')).equals(expr2)
+    );
+  });
+});
