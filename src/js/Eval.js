@@ -19,7 +19,7 @@ class Eval {
     this._tryStack = Stack();
   }
 
-  eval() {
+  sequence() {
     function* gen(_this) {
       let reduced = null;
 
