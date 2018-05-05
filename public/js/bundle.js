@@ -115,6 +115,17 @@ eval("module.exports = function(module) {\r\n\tif (!module.webpackPolyfill) {\r\
 
 /***/ }),
 
+/***/ "./src/js/Context/Context.js":
+/*!***********************************!*\
+  !*** ./src/js/Context/Context.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("class Context {\n  constructor() {\n    this._store = new Map([]);\n  }\n\n  /**\n   * @param   {string} funcName\n   * @returns {bool}\n   */\n  has(funcName) {\n\n  }\n\n  /**\n   * @param   {string} funcName\n   * @returns {Func}\n   */\n  get(funcName) {\n    return this._store.get(funcName);\n  }\n\n  /**\n   * @param   {string}  funcName\n   * @param   {Func}    func\n   * @returns {Context}\n   */\n  set(funcName, func) {\n    this._store = this._store.set(funcName, func);\n\n    return this;\n  }\n\n  /**\n   * @returns {Array[]}\n   */\n  entries() {\n    return Array.from(this._store);\n  }\n}\n\nmodule.exports = Context;\n\n\n//# sourceURL=webpack:///./src/js/Context/Context.js?");
+
+/***/ }),
+
 /***/ "./src/js/Parser/UnlambdaStyleParser.js":
 /*!**********************************************!*\
   !*** ./src/js/Parser/UnlambdaStyleParser.js ***!
@@ -166,7 +177,7 @@ eval("\nclass Expr {\n  /**\n   * 別のλ式に自身を適用した新しいλ
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const _ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n\nconst Lambda = __webpack_require__(/*! ./Lambda */ \"./src/js/Types/Lambda.js\");\nconst Expr   = __webpack_require__(/*! ./Expr */ \"./src/js/Types/Expr.js\");\n\nclass Func {\n  /**\n   * @param {string[]} params\n   * @param {Expr}     bareExpr\n   */\n  constructor(params, bareExpr) {\n    this.params = params;\n    this.bareExpr = bareExpr;\n  }\n\n  equals(other) {\n    return this.constructor === other.constructor\n      && _.isEqual(this.params, other.params)\n      && this.bareExpr.equals(other.bareExpr);\n  }\n\n  /**\n   * 関数のアリティを返す\n   *\n   * @see {@link https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%83%86%E3%82%A3}\n   * @returns {number}\n   */\n  getArity() {\n    return this.params.length;\n  }\n\n  /**\n   * 関数と同等なλ式を返す。ただし、同等とはいえアリティの情報が失われる\n   *\n   * Func { params=[x, y], bareExpr=M } に対して\n   * Lambda { param=x, body=Lambda { param=y, body=M } } を返す\n   *\n   * @returns {Expr}\n   */\n  getBoby() {\n    return this.params.reduceRight(\n      (expr, param) => ( new Lambda(param, expr) ),\n      this.bareExpr\n    );\n  }\n}\n\nmodule.exports = Func;\n\n\n//# sourceURL=webpack:///./src/js/Types/Func.js?");
+eval("const _ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n\nconst Lambda = __webpack_require__(/*! ./Lambda */ \"./src/js/Types/Lambda.js\");\nconst Expr   = __webpack_require__(/*! ./Expr */ \"./src/js/Types/Expr.js\");\n\nclass Func {\n  /**\n   * @param {string[]} params\n   * @param {Expr}     bareExpr\n   */\n  constructor(params, bareExpr) {\n    this.params = params;\n    this.bareExpr = bareExpr;\n  }\n\n  equals(other) {\n    return this.constructor === other.constructor\n      && _.isEqual(this.params, other.params)\n      && this.bareExpr.equals(other.bareExpr);\n  }\n\n  /**\n   * 関数のアリティを返す\n   *\n   * @see {@link https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%83%86%E3%82%A3}\n   * @returns {number}\n   */\n  getArity() {\n    return this.params.length;\n  }\n\n  /**\n   * 関数と同等なλ式を返す。ただし、同等とはいえアリティの情報が失われる\n   *\n   * Func { params=[x, y], bareExpr=M } に対して\n   * Lambda { param=x, body=Lambda { param=y, body=M } } を返す\n   *\n   * @returns {Expr}\n   */\n  getBoby() {\n    return this.params.reduceRight(\n      (expr, param) => ( new Lambda(param, expr) ),\n      this.bareExpr\n    );\n  }\n\n  /**\n   * @param   {Expr[]} args\n   * @returns {Expr}\n   */\n  invoke(...args) {\n    const pairs = _.zip(this.params, args);\n\n    let body = this.bareExpr;\n\n    for (let i = 0, len = pairs.length; i < len; i++) {\n      const [param, expr] = pairs[i];\n\n      body = body.rewrite(param, expr);\n    }\n\n    return body;\n  }\n}\n\nmodule.exports = Func;\n\n\n//# sourceURL=webpack:///./src/js/Types/Func.js?");
 
 /***/ }),
 
@@ -210,7 +221,7 @@ eval("const Expr       = __webpack_require__(/*! ./Expr */ \"./src/js/Types/Expr
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("const UnlambdaStyleParser = __webpack_require__(/*! ./Parser/UnlambdaStyleParser */ \"./src/js/Parser/UnlambdaStyleParser.js\");\n\nmodule.exports = {\n  UnlambdaStyleParser,\n};\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
+eval("const UnlambdaStyleParser = __webpack_require__(/*! ./Parser/UnlambdaStyleParser */ \"./src/js/Parser/UnlambdaStyleParser.js\");\nconst Context = __webpack_require__(/*! ./Context/Context */ \"./src/js/Context/Context.js\");\n\nclass App {\n  constructor() {\n    this._context = new Context();\n  }\n\n\n\n  get context() {\n    return this._context.entries();\n  }\n}\n\nmodule.exports = {\n  UnlambdaStyleParser,\n};\n\n\n//# sourceURL=webpack:///./src/js/app.js?");
 
 /***/ })
 
