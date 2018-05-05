@@ -43,6 +43,24 @@ class Func {
       this.bareExpr
     );
   }
+
+  /**
+   * @param   {Expr[]} args
+   * @returns {Expr}
+   */
+  invoke(...args) {
+    const pairs = _.zip(this.params, args);
+
+    let body = this.bareExpr;
+
+    for (let i = 0, len = pairs.length; i < len; i++) {
+      const [param, expr] = pairs[i];
+
+      body = body.rewrite(param, expr);
+    }
+
+    return body;
+  }
 }
 
 module.exports = Func;

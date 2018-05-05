@@ -5,31 +5,25 @@ const Lambda     = require('../Types/Lambda');
 const Apply      = require('../Types/Apply');
 
 // pp(Expr.lambda('x', Expr.lambda('y', Expr.com(y).apply(Expr.com('x')))));
-// => '\x -> \y -> y x'
+// => 'x => (y => y(x))'
 
-class HsExpr {
+class EsExpr {
 }
 
-class HsLambda extends HsExpr {
+class EsLambda extends EsExpr {
   constructor(param, body) {
     super();
 
-    this.params = [param];
+    this.param = param;
     this.body  = body;
   }
 
-  push(param) {
-    this.params.unshift(param);
-
-    return this;
-  }
-
   toString() {
-    return `\\${this.params.join(' ')}->${this.body}`;
+    return `${this.param}=>${this.body}`;
   }
 }
 
-class HsApplys extends HsExpr {
+class EsApplys extends EsExpr {
   constructor (exprs) {
     super();
 
@@ -42,17 +36,27 @@ class HsApplys extends HsExpr {
     return this;
   }
 
+  formatHead() {
+    const head = this.exprs[0];
+
+    if (head instanceof EsLambda) {
+      return `(${head})`;
+    } else {
+      return ''+head;
+    }
+  }
+
+  formatTails() {
+    const tail = this.exprs.slice(1);
+
+    return tail.map((expr) => `(${expr})`);
+  }
+
   toString() {
-    const exprStrs = this.exprs.map((expr) => {
-      if (
-        expr instanceof HsApplys
-        || expr instanceof HsLambda
-      ) { return `(${expr})`; }
+    const headStr  = this.formatHead();
+    const tailStrs = this.formatTails();
 
-      return ''+expr;
-    });
-
-    return exprStrs.join(' ');
+    return `${headStr}${tailStrs.join('')}`;
   }
 }
 
@@ -78,21 +82,15 @@ function pp_(expr) {
       const left  = pp_(expr.left);
       const right = pp_(expr.right);
 
-      if (left instanceof HsApplys) {
+      if (left instanceof EsApplys) {
         return left.push(right);
       } else {
-        return new HsApplys([left, right]);
+        return new EsApplys([left, right]);
       }
     }
 
     case expr instanceof Lambda: {
-      const body = pp_(expr.body);
-
-      if (body instanceof HsLambda) {
-        return body.push(expr.param);
-      } else {
-        return new HsLambda(expr.param, body);
-      }
+      return new EsLambda(expr.param, pp_(expr.body));
     }
   }
 }
