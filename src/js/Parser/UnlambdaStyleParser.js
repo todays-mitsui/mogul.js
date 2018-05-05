@@ -91,5 +91,11 @@ const UnlambdaStyleParser = P.createLanguage({
   ,
 });
 
+const UnlambdaStyleCommandParser = P.createLanguage({
 
-module.exports = UnlambdaStyleParser;
+});
+
+module.exports = {
+  UnlambdaStyleParser,
+  UnlambdaStyleCommandParser,
+};

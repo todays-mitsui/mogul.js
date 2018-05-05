@@ -1,4 +1,4 @@
-const UnlambdaStyleParser = require('./UnlambdaStyleParser');
+const { UnlambdaStyleParser } = require('./UnlambdaStyleParser');
 
 const Variable   = require('../Types/Variable');
 const Combinator = require('../Types/Combinator');

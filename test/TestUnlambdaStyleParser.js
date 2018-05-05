@@ -7,7 +7,7 @@ const Apply    = require('../src/js/Types/Apply');
 
 const Func = require('../src/js/Types/Func');
 
-const UnlambdaStyleParser = require('../src/js/Parser/UnlambdaStyleParser')
+const { UnlambdaStyleParser } = require('../src/js/Parser/UnlambdaStyleParser')
 
 
 describe('UnlambdaStyleParser', function () {

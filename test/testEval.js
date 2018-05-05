@@ -63,14 +63,14 @@ describe('Eval', function () {
     });
   });
 
-  describe('eval', function() {
+  describe('sequence', function() {
     it('```skk:x', function() {
       const expr = Expr.com('s')
         .apply(Expr.com('k'))
         .apply(Expr.com('k'))
         .apply(Expr.sym('x'));
 
-      const iter = (new Eval(context, expr)).eval();
+      const iter = (new Eval(context, expr)).sequence();
 
       for (let reduced of iter) {
         assert.instanceOf(reduced, Expr);
@@ -83,7 +83,7 @@ describe('Eval', function () {
         .apply(Expr.com('k'))
         .apply(Expr.sym('x'));
 
-      const iter = (new Eval(context, expr)).eval();
+      const iter = (new Eval(context, expr)).sequence();
 
       assert.lengthOf(Array.from(iter), 2);
     });
