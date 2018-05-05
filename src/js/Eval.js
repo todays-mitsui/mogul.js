@@ -19,10 +19,30 @@ class Eval {
     this._tryStack = Stack();
   }
 
+  eval() {
+    function* gen(_this) {
+      let reduced = null;
+
+      while (true) {
+        reduced = _this.reduce();
+
+        if (reduced) {
+          _this.expr = reduced;
+
+          yield reduced;
+        } else {
+          break;
+        }
+      }
+    }
+
+    return gen(this);
+  }
+
   reduce() {
     this._tryStack = Stack.of([this.expr, Location.root]);
 
-    let reduced = null
+    let reduced = null;
     while (!this._tryStack.isEmpty() && _.isNull(reduced)) {
       const [expr, location] = this._tryStack.peek();
       this._tryStack = this._tryStack.pop();
