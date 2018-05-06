@@ -1,6 +1,6 @@
 class Context {
   constructor() {
-    this._store = new Map([]);
+    this._store = new Map();
   }
 
   /**
@@ -8,7 +8,7 @@ class Context {
    * @returns {bool}
    */
   has(funcName) {
-
+    return this._store.has(funcName);
   }
 
   /**
@@ -25,7 +25,7 @@ class Context {
    * @returns {Context}
    */
   set(funcName, func) {
-    this._store = this._store.set(funcName, func);
+    this._store.set(funcName, func);
 
     return this;
   }

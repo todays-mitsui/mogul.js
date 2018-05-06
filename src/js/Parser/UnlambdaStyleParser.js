@@ -8,7 +8,7 @@ const Apply      = require('../Types/Apply');
 const Func = require('../Types/Func');
 
 
-const token = parser => ( parser.skip(P.optWhitespace) );
+const token = parser => ( P.optWhitespace.then(parser).skip(P.optWhitespace) );
 
 const UnlambdaStyleParser = P.createLanguage({
   // 式
@@ -25,8 +25,8 @@ const UnlambdaStyleParser = P.createLanguage({
   apply: r =>
     P.seqMap(
       token(P.string('`')),
-      r.expr,
-      r.expr,
+      token(r.expr),
+      token(r.expr),
       (_, left, right) => ( new Apply(left, right) )
     )
   ,
@@ -35,9 +35,9 @@ const UnlambdaStyleParser = P.createLanguage({
   lambda: r =>
     P.seqMap(
       token(P.string('^')),
-      r.ident,
+      token(r.ident),
       token(P.string('.')),
-      r.expr,
+      token(r.expr),
       (_1, param, _3, body) => ( new Lambda(param, body) )
     )
   ,
@@ -64,15 +64,34 @@ const UnlambdaStyleParser = P.createLanguage({
 
   longVariable:   () => token(P.regex(/[A-Z0-9_]+/)),
 
-  // 関数定義
+
   def: r =>
+    P.alt(
+      r.addFunc,
+      r.updateFunc
+    )
+  ,
+
+  // 関数定義(定義済み関数の上書きを許さない)
+  addFunc: r =>
     P.seqMap(
-      r.lvalue,
-      token(P.string('=')),
-      r.expr,
+      token(r.lvalue),
+      token(P.string(':=')),
+      token(r.expr),
       ([funcName, params], _, bareExpr) => ( [funcName, new Func(params, bareExpr)] )
     )
   ,
+
+  // 関数定義(定義済み関数の上書きを許す)
+  updateFunc: r =>
+    P.seqMap(
+      token(r.lvalue),
+      token(P.string('=')),
+      token(r.expr),
+      ([funcName, params], _, bareExpr) => ( [funcName, new Func(params, bareExpr)] )
+    )
+  ,
+
 
   // 関数定義の左辺値
   lvalue: r =>
@@ -92,7 +111,108 @@ const UnlambdaStyleParser = P.createLanguage({
 });
 
 const UnlambdaStyleCommandParser = P.createLanguage({
+  command: r =>
+    P.alt(
+      r.evalLast,
+      r.info,
+      r.context,
+      r.add,
+      r.update,
+      r.evalHead,
+      r.evalTail,
+      r.eval,
+    )
+  ,
 
+  eval: () =>
+    UnlambdaStyleParser.expr
+    .map((expr) => ({
+      command: 'eval',
+      expr: expr,
+    }))
+  ,
+
+  evalLast: () =>
+    P.seqMap(
+      P.string('!'),
+      P.optWhitespace,
+      UnlambdaStyleParser.expr,
+      (_1, _2, expr) => ({
+        command: 'evalLast',
+        expr: expr,
+      })
+    )
+  ,
+
+
+  evalHead: () =>
+    P.seqMap(
+      P.string(':'),
+      P.digits,
+      P.whitespace,
+      UnlambdaStyleParser.expr,
+      (_1, numStr, _3, expr) => ({
+        command: 'evalHead',
+        expr: expr,
+        howMany: parseInt(numStr, 10),
+      })
+    )
+  ,
+
+  evalTail: () =>
+    P.seqMap(
+      P.string(':-'),
+      P.digits,
+      P.whitespace,
+      UnlambdaStyleParser.expr,
+      (_1, numStr, _3, expr) => ({
+        command: 'evalTail',
+        expr: expr,
+        howMany: parseInt(numStr, 10),
+      })
+    )
+  ,
+
+  add: () =>
+    UnlambdaStyleParser.addFunc
+    .map(([funcName, func]) => ({
+      command: 'add',
+      funcName: funcName,
+      func: func,
+    }))
+  ,
+
+  update: () =>
+    UnlambdaStyleParser.updateFunc
+    .map(([funcName, func]) => ({
+      command: 'update',
+      funcName: funcName,
+      func: func,
+    }))
+  ,
+
+  info: () =>
+    P.seqMap(
+      P.string('?'),
+      P.optWhitespace,
+      UnlambdaStyleParser.ident,
+      (_1, _2, ident) => ({
+        command: 'info',
+        ident: ident,
+      })
+    )
+  ,
+
+  context: () =>
+    P.seqMap(
+      P.string('?'),
+      P.optWhitespace,
+      P.eof,
+      (_1, _2, _3) => ({
+        command: 'context',
+      })
+    )
+  ,
 });
 
 module.exports = {
