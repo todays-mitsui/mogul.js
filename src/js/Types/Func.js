@@ -3,6 +3,9 @@ const _ = require('lodash');
 const Lambda = require('./Lambda');
 const Expr   = require('./Expr');
 
+const normalize = require('./normalize');
+
+
 class Func {
   /**
    * @param {string[]} params
@@ -10,7 +13,7 @@ class Func {
    */
   constructor(params, bareExpr) {
     this.params = params;
-    this.bareExpr = bareExpr;
+    this.bareExpr = normalize(new Set(params), bareExpr);
   }
 
   equals(other) {

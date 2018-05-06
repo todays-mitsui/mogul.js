@@ -39,6 +39,32 @@ class Expr {
   }
 
   /**
+   * λ式を最外最左簡約した結果を返す
+   *
+   * λ式が簡約基を含まない(=全く簡約できない)場合には null を返す
+   *
+   * @param   {Context} context
+   * @returns {Expr|null}
+   */
+  reduce(context) {
+    const Eval = require('../Eval');
+
+    return (new Eval(context, this)).reduce();
+  }
+
+  /**
+   * λ式に最外最左簡約を逐次施した結果の列を返す
+   *
+   * @param   {Context}        context
+   * @returns {Iterable<Expr>}
+   */
+  evals(context) {
+    const Eval = require('../Eval');
+
+    return (new Eval(context, this)).sequence();
+  }
+
+  /**
    * λ式を pretty print する
    *
    * @returns {string}

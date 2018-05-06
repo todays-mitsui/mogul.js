@@ -9,8 +9,9 @@ const Expr       = require('../src/js/Types/Expr');
 
 const Func = require('../src/js/Types/Func');
 
-const parseExpr = require('../src/js/Parser/Parser').parseExpr;
-const parseDefs = require('../src/js/Parser/Parser').parseDefs;
+const { parseExpr } = require('../src/js/Parser/Parser');
+const { parseDefs } = require('../src/js/Parser/Parser');
+const { parseCommand } = require('../src/js/Parser/Parser');
 
 
 describe('parseExpr', function () {
@@ -130,6 +131,232 @@ describe('parseDefs', function () {
           Expr.var('x')
         )
       ));
+    });
+  });
+});
+
+
+describe('parseCommand', function () {
+  describe('eval', function() {
+    it('```skk:x', function() {
+      const src = '```skk:x';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'eval',
+          expr: Expr.com('s')
+            .apply(Expr.com('k'))
+            .apply(Expr.com('k'))
+            .apply(Expr.sym('x'))
+          ,
+        }
+      );
+
+      assert.isTrue(parseResult.expr.equals(
+        Expr.com('s')
+          .apply(Expr.com('k'))
+          .apply(Expr.com('k'))
+          .apply(Expr.sym('x'))
+      ));
+    });
+  });
+
+  describe('evalLast', function() {
+    it('!```skk:x', function() {
+      const src = '!```skk:x';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'evalLast',
+          expr: Expr.com('s')
+            .apply(Expr.com('k'))
+            .apply(Expr.com('k'))
+            .apply(Expr.sym('x'))
+          ,
+        }
+      );
+
+      assert.isTrue(parseResult.expr.equals(
+        Expr.com('s')
+          .apply(Expr.com('k'))
+          .apply(Expr.com('k'))
+          .apply(Expr.sym('x'))
+      ));
+    });
+
+    it('! ```skk:x', function() {
+      const src = '! ```skk:x';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'evalLast',
+          expr: Expr.com('s')
+            .apply(Expr.com('k'))
+            .apply(Expr.com('k'))
+            .apply(Expr.sym('x'))
+          ,
+        }
+      );
+    });
+  });
+
+  describe('evalHead', function() {
+    it(':10 ```skk:x', function() {
+      const src = ':10 ```skk:x';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'evalHead',
+          expr: Expr.com('s')
+            .apply(Expr.com('k'))
+            .apply(Expr.com('k'))
+            .apply(Expr.sym('x'))
+          ,
+          howMany: 10,
+        }
+      );
+
+      assert.isTrue(parseResult.expr.equals(
+        Expr.com('s')
+          .apply(Expr.com('k'))
+          .apply(Expr.com('k'))
+          .apply(Expr.sym('x'))
+      ));
+    });
+  });
+
+  describe('evalTail', function() {
+    it(':-10 ```skk:x', function() {
+      const src = ':-10 ```skk:x';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'evalTail',
+          expr: Expr.com('s')
+            .apply(Expr.com('k'))
+            .apply(Expr.com('k'))
+            .apply(Expr.sym('x'))
+          ,
+          howMany: 10,
+        }
+      );
+
+      assert.isTrue(parseResult.expr.equals(
+        Expr.com('s')
+          .apply(Expr.com('k'))
+          .apply(Expr.com('k'))
+          .apply(Expr.sym('x'))
+      ));
+    });
+  });
+
+  describe('info', function() {
+    it('?s', function() {
+      const src = '?s';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'info',
+          ident: 's',
+        }
+      );
+    });
+
+    it('? s', function() {
+      const src = '? s';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'info',
+          ident: 's',
+        }
+      );
+    });
+
+    it('?``skk', function() {
+      const src = '?``skk';
+
+      assert.throws(() => {
+        parseCommand(src)
+      });
+    });
+
+    it('?sk', function() {
+      const src = '?sk';
+
+      assert.throws(() => {
+        parseCommand(src)
+      });
+    });
+  });
+
+  describe('context', function() {
+    it('?', function() {
+      const src = '?';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'context',
+        }
+      );
+    });
+  });
+
+  describe('add', function() {
+    it('```sxyz := ``xz`yz', function() {
+      const src = '```sxyz := ``xz`yz';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'add',
+          funcName: 's',
+          func: new Func(
+            ['x', 'y', 'z'],
+            Expr.var('x')
+              .apply(Expr.var('z'))
+              .apply(Expr.var('y').apply(Expr.var('z')))
+          ),
+        }
+      );
+    });
+  });
+
+  describe('update', function() {
+    it('```sxyz = ``xz`yz', function() {
+      const src = '```sxyz = ``xz`yz';
+      const parseResult = parseCommand(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          command: 'update',
+          funcName: 's',
+          func: new Func(
+            ['x', 'y', 'z'],
+            Expr.var('x')
+              .apply(Expr.var('z'))
+              .apply(Expr.var('y').apply(Expr.var('z')))
+          ),
+        }
+      );
     });
   });
 });

@@ -147,11 +147,51 @@ describe('UnlambdaStyleParser', function () {
         }
       );
     });
+
+    it('識別子の間にスペースを差し込んでも構わない', function () {
+      const src = '   ` `   x z  ` y  z   ';
+      const parseResult = UnlambdaStyleParser.apply.parse(src);
+
+      assert.instanceOf(parseResult.value, Apply);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          status: true,
+          value: new Apply(
+            new Apply(
+              new Variable('x'),
+              new Variable('z')
+            ),
+            new Apply(
+              new Variable('y'),
+              new Variable('z')
+            )
+          ),
+        }
+      );
+    });
   });
 
   describe('関数定義', function() {
     it('関数定義の左辺値', function() {
       const src = '```fxyz';
+      const parseResult = UnlambdaStyleParser.lvalue.parse(src);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          status: true,
+          value: [
+            'f',
+            ['x', 'y', 'z'],
+          ]
+        }
+      );
+    });
+
+    it('左辺値にもスペースでレイアウトを調整することが許される', function() {
+      const src = '  ` ``  f    x y z     ';
       const parseResult = UnlambdaStyleParser.lvalue.parse(src);
 
       assert.deepEqual(
@@ -203,6 +243,31 @@ describe('UnlambdaStyleParser', function () {
       const parseResult = UnlambdaStyleParser.def.parse(src);
 
       assert.isNotOk(parseResult.status);
+    });
+
+    it('関数定義もスペースの挿入は自由', function() {
+      const src = '   `` f x y = `y   x  ';
+      const parseResult = UnlambdaStyleParser.def.parse(src);
+
+      assert.isString(parseResult.value[0]);
+      assert.instanceOf(parseResult.value[1], Func);
+
+      assert.deepEqual(
+        parseResult,
+        {
+          status: true,
+          value: [
+            'f',
+            new Func(
+              /* params = */ ['x', 'y'],
+              /* bareExpr = */ new Apply(
+                new Variable('y'),
+                new Variable('x')
+              )
+            ),
+          ]
+        }
+      );
     });
   });
 });

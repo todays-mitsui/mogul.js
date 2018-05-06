@@ -7,6 +7,9 @@ const Lambda     = require('../src/js/Types/Lambda');
 const Apply      = require('../src/js/Types/Apply');
 const Expr       = require('../src/js/Types/Expr');
 
+const Func    = require('../src/js/Types/Func');
+const Context = require('../src/js/Context/Context');
+
 
 describe('Expr', function () {
   describe('λ式の生成', function() {
@@ -144,5 +147,37 @@ describe('rewrite', function () {
     assert.isTrue(
       expr1.rewrite('x', Expr.com('y')).equals(expr2)
     );
+  });
+});
+
+describe('evals', function() {
+  const context = (new Context())
+    .set('i', new Func(['x'], Expr.var('x')))
+    .set('k', new Func(['x', 'y'], Expr.var('x')))
+    .set('s', new Func(
+      ['x', 'y', 'z'],
+      Expr.var('x')
+        .apply(Expr.var('z'))
+        .apply(Expr.var('y').apply(Expr.var('z')))
+    ));
+
+  it('```skk:x', function() {
+    const expr = Expr.com('s')
+      .apply(Expr.com('k'))
+      .apply(Expr.com('k'))
+      .apply(Expr.sym('x'));
+
+    for (let reduced of expr.evals(context)) {
+      assert.instanceOf(reduced, Expr);
+    }
+  });
+
+  it('```skk:x', function() {
+    const expr = Expr.com('s')
+      .apply(Expr.com('k'))
+      .apply(Expr.com('k'))
+      .apply(Expr.sym('x'));
+
+    assert.lengthOf(Array.from(expr.evals(context)), 2);
   });
 });
