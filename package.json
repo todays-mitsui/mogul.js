@@ -7,15 +7,22 @@
   "author": "Mitsui",
   "license": "GPL",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
+    "css-loader": "^0.28.11",
     "mocha": "^5.1.0",
+    "vue-loader": "^15.0.10",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
     "immutable": "^3.8.2",
     "lodash": "^4.17.10",
-    "parsimmon": "^1.7.2"
+    "parsimmon": "^1.7.2",
+    "vue": "^2.5.16"
   },
   "scripts": {
     "build": "webpack",
