@@ -1,5 +1,6 @@
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin   = require('vue-loader/lib/plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -16,26 +17,29 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          loaders: {
-            scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
-          },
-        },
+        // options: {
+        //   loaders: {
+        //     scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+        //     sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax' // <style lang="sass">
+        //   },
+        // },
       },
 
-      // {
-      //   test: /\.js$/,
-      //   loader: 'babel-loader'
-      // },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
 
       {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          'css-loader',
         ]
-      }
+      },
     ],
   },
   resolve: {
