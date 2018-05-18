@@ -1,40 +1,47 @@
-class Context {
-  constructor() {
-    this._store = new Map();
+const { Record, Map } = require('immutable');
+
+const ContextRecord = Record({
+  store: Map(),
+})
+
+class Context extends ContextRecord {
+  constructor(funcNameAndFuncs) {
+    super({
+      store: Map(funcNameAndFuncs),
+    })
   }
 
   /**
-   * @param   {string} funcName
-   * @returns {bool}
+   * @param  {string} funcName
+   * @return {bool}
    */
-  has(funcName) {
-    return this._store.has(funcName);
+  _has(funcName) {
+    return super.get('store').has(funcName);
   }
 
   /**
    * @param   {string} funcName
    * @returns {Func}
    */
-  get(funcName) {
-    return this._store.get(funcName);
+  _get(funcName) {
+    return super.get('store').get(funcName);
   }
 
   /**
-   * @param   {string}  funcName
-   * @param   {Func}    func
-   * @returns {Context}
+   * @param  {string}  funcName
+   * @param  {Func}    func
+   * @return {Context}
    */
-  set(funcName, func) {
-    this._store.set(funcName, func);
-
-    return this;
+  _add(funcName, func) {
+    return this.update('store', store => store.set(funcName, func));
   }
 
   /**
-   * @returns {Array[]}
+   * @param  {string} funcName
+   * @return {Context}
    */
-  entries() {
-    return Array.from(this._store);
+  _delete(funcName) {
+    return this.update('store', store => store.delete(funcName));
   }
 }
 

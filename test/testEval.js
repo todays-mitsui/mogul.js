@@ -7,9 +7,9 @@ const Eval    = require('../src/js/Eval');
 
 describe('Eval', function () {
   const context = (new Context())
-    .set('i', new Func(['x'], Expr.var('x')))
-    .set('k', new Func(['x', 'y'], Expr.var('x')))
-    .set('s', new Func(
+    ._add('i', new Func(['x'], Expr.var('x')))
+    ._add('k', new Func(['x', 'y'], Expr.var('x')))
+    ._add('s', new Func(
       ['x', 'y', 'z'],
       Expr.var('x')
         .apply(Expr.var('z'))

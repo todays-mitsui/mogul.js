@@ -30,14 +30,9 @@ function parseExpr(src) {
  * @returns {Expr}
  */
 function parseDefs(src) {
-  const funcPairs = UnlambdaStyleParser.def.many().tryParse(src);
+  const funcNameAndFuncs = UnlambdaStyleParser.def.many().tryParse(src);
 
-  const context = new Context();
-  funcPairs.map(([funcName, func]) => {
-    context.set(funcName, func);
-  })
-
-  return context;
+  return new Context(funcNameAndFuncs);
 }
 
 /**
