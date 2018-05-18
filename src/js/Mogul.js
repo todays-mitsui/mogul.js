@@ -1,7 +1,7 @@
 const Context = require('./Context/Context');
 const { parseCommand } = require('./Parser/Parser');
 
-class Mogle {
+class Mogul {
   constructor() {
     this.context = new Context();
     this.console = [];
@@ -20,4 +20,4 @@ class Mogle {
   }
 }
 
-module.exports = Mogle;
+module.exports = Mogul;
