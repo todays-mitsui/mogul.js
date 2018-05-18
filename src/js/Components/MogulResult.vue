@@ -1,14 +1,20 @@
 <template>
   <ul>
-    <li>AAA</li>
-    <li>BBB</li>
-    <li>CCC</li>
+    <li v-for="line in lines">
+      <mogul-expr :expr="line"></mogul-expr>
+    </li>
   </ul>
 </template>
 
 <script>
+import MogulExpr  from './MogulExpr.vue';
+
 module.exports = {
   props: ['lines'],
+
+  components: {
+    MogulExpr,
+  },
 }
 </script>
 
