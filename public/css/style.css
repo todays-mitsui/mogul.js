@@ -4,6 +4,8 @@ html, body, .container, .mogul-app {
   height: 100%;
 }
 
-.mogul-result {
+.mogul-result,
+.mogul-input,
+.mogul-context {
   font-family: 'Source Code Pro', monospace;
 }

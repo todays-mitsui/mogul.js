@@ -2,8 +2,12 @@
   <div class="mogul-app" role="mogul-app">
     <multipane class="vertical-panes" layout="vertical">
       <div class="pane pane-left" :style="{ minWidth: '100px', width: '60%' }">
-        <mogul-result :lines="lines"></mogul-result>
-        <mogul-input></mogul-input>
+        <mogul-result
+          :lines="lines"
+        ></mogul-result>
+        <mogul-input
+          :onSubmit="onSubmit"
+        ></mogul-input>
       </div><!-- /.pane.pane-left -->
 
       <multipane-resizer></multipane-resizer>
@@ -21,7 +25,8 @@ import { Multipane, MultipaneResizer } from 'vue-multipane';
 import MogulInput  from './Components/MogulInput.vue';
 import MogulResult from './Components/MogulResult.vue';
 
-import Expr from './Types/Expr';
+import Expr  from './Types/Expr';
+import Mogul from './Mogul';
 
 module.exports = {
   components: {
@@ -41,7 +46,13 @@ module.exports = {
         Expr.lambda('x', Expr.var('x')).apply(Expr.sym('x')),
       ],
     }
-  }
+  },
+
+  methods: {
+    onSubmit: function(event, src) {
+      console.info(src);
+    }
+  },
 }
 </script>
 
@@ -52,10 +63,6 @@ module.exports = {
 
 .mogul-result {
   background-color: #c0ffee;
-}
-
-.mogul-input {
-  background-color: #ddd;
 }
 
 .vertical-panes,
@@ -76,21 +83,24 @@ module.exports = {
 }
 
 .vertical-panes > .multipane-resizer {
-  margin: 0; left: 0;
   position: relative;
+  left: 0;
+
+  margin: 0;
 }
 .vertical-panes > .multipane-resizer::before {
   display: block;
   content: "";
-  width: 3px;
+  width: 4px;
   height: 40px;
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: -20px;
-  margin-left: -1.5px;
+  margin-left: -2px;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
+  box-sizing: border-box;
 }
 .vertical-panes > .multipane-resizer:hover::before {
   border-color: #999;
