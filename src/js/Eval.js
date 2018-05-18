@@ -75,7 +75,7 @@ class Eval {
       }
 
       case expr instanceof Combinator: {
-        const func = this.context.get(expr.label);
+        const func = this.context._get(expr.label);
 
         if (!func) { return null; }
 

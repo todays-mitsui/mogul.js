@@ -89,8 +89,8 @@ describe('parseDefs', function () {
       const src = '`ix=x';
       const context = parseDefs(src);
 
-      assert.isTrue(context.has('i'));
-      assert.isTrue(context.get('i').equals(
+      assert.isTrue(context._has('i'));
+      assert.isTrue(context._get('i').equals(
         new Func(
           ['x'],
           Expr.var('x')
@@ -106,8 +106,8 @@ describe('parseDefs', function () {
       ].join('\n');
       const context = parseDefs(src);
 
-      assert.isTrue(context.has('s'));
-      assert.isTrue(context.get('s').equals(
+      assert.isTrue(context._has('s'));
+      assert.isTrue(context._get('s').equals(
         new Func(
           ['x', 'y', 'z'],
           Expr.var('x')
@@ -116,16 +116,16 @@ describe('parseDefs', function () {
         )
       ));
 
-      assert.isTrue(context.has('i'));
-      assert.isTrue(context.get('i').equals(
+      assert.isTrue(context._has('i'));
+      assert.isTrue(context._get('i').equals(
         new Func(
           ['x'],
           Expr.var('x')
         )
       ));
 
-      assert.isTrue(context.has('k'));
-      assert.isTrue(context.get('k').equals(
+      assert.isTrue(context._has('k'));
+      assert.isTrue(context._get('k').equals(
         new Func(
           ['x', 'y'],
           Expr.var('x')
