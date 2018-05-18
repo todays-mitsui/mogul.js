@@ -1,9 +1,11 @@
 <template>
-  <ul>
-    <li v-for="line in lines">
-      <mogul-expr :expr="line"></mogul-expr>
-    </li>
-  </ul>
+  <div class="mogul-result">
+    <ul>
+      <li v-for="line in lines">
+        <mogul-expr :expr="line"></mogul-expr>
+      </li>
+    </ul>
+  </div><!-- /.mogul-result -->
 </template>
 
 <script>
