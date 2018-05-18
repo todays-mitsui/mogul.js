@@ -1,8 +1,10 @@
 <template>
-  <input
-    type="text"
-    v-model="expr"
-  >
+  <div class="mogul-input">
+    <input
+      type="text"
+      v-model="expr"
+    >
+  </div><!-- /.mogul-input -->
 </template>
 
 <script>

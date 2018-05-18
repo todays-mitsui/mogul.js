@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+html, body, .container, .mogul-app {
+  height: 100%;
+}
+
+.mogul-result {
+  font-family: 'Source Code Pro', monospace;
+}
