@@ -65,7 +65,7 @@ const ES6FatArrowStyleParser = P.createLanguage({
       token(optParens(r.params)),
       token(P.string('=>')),
       token(optParens(r.expr)),
-      (params, _, body) => { 
+      (params, _, body) => {
         return params.reduceRight(
           (expr, param) => ( new Lambda(param, expr) ),
           body
@@ -131,7 +131,7 @@ const ES6FatArrowStyleParser = P.createLanguage({
     ).skip(P.optWhitespace)
   ,
 
-  params: r => 
+  params: r =>
     r.ident.sepBy(P.regexp(/\s*,\s*/))
   ,
 
@@ -174,10 +174,11 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
       P.string('!'),
       P.optWhitespace,
       ES6FatArrowStyleParser.expr,
-      (_1, _2, expr) => ({
-        command: 'evalLast',
-        expr: expr,
-      })
+      (_1, _2, expr) => ( new EvalCommand(expr) )
+      // (_1, _2, expr) => ({
+      //   command: 'evalLast',
+      //   expr: expr,
+      // })
     )
   ,
 
@@ -212,20 +213,12 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
 
   add: () =>
     ES6FatArrowStyleParser.addFunc
-    .map(([funcName, func]) => ({
-      command: 'add',
-      funcName: funcName,
-      func: func,
-    }))
+    .map(([funcName, func]) => new AddCommand(funcName, func))
   ,
 
   update: () =>
     ES6FatArrowStyleParser.updateFunc
-    .map(([funcName, func]) => ({
-      command: 'update',
-      funcName: funcName,
-      func: func,
-    }))
+    .map(([funcName, func]) => new UpdateCommand(funcName, func) )
   ,
 
   info: () =>

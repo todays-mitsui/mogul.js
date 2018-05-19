@@ -16,12 +16,12 @@ class AddCommand extends Command {
    * @returns {Context}               更新された context
    */
   run(context, consoleOut) {
-    if (context.has(this.funcName)) {
+    console.info(this.funcName, this.func);
+
+    if (context._has(this.funcName)) {
       return context;
     } else {
-      context.set(funcName, func);
-
-      return context;
+      return context._add(this.funcName, this.func);
     }
   }
 }
