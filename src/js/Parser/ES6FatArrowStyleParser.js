@@ -8,6 +8,10 @@ const Apply      = require('../Types/Apply');
 
 const Func = require('../Types/Func');
 
+const EvalCommand   = require('../Command/EvalCommand');
+const AddCommand    = require('../Command/AddCommand');
+const UpdateCommand = require('../Command/UpdateCommand');
+
 
 const token = parser => ( P.optWhitespace.then(parser).skip(P.optWhitespace) );
 
@@ -161,18 +165,15 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
   ,
 
   eval: () =>
-    UnlambdaStyleParser.expr
-    .map((expr) => ({
-      command: 'eval',
-      expr: expr,
-    }))
+    ES6FatArrowStyleParser.expr
+    .map((expr) => new EvalCommand(expr))
   ,
 
   evalLast: () =>
     P.seqMap(
       P.string('!'),
       P.optWhitespace,
-      UnlambdaStyleParser.expr,
+      ES6FatArrowStyleParser.expr,
       (_1, _2, expr) => ({
         command: 'evalLast',
         expr: expr,
@@ -186,7 +187,7 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
       P.string(':'),
       P.digits,
       P.whitespace,
-      UnlambdaStyleParser.expr,
+      ES6FatArrowStyleParser.expr,
       (_1, numStr, _3, expr) => ({
         command: 'evalHead',
         expr: expr,
@@ -200,7 +201,7 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
       P.string(':-'),
       P.digits,
       P.whitespace,
-      UnlambdaStyleParser.expr,
+      ES6FatArrowStyleParser.expr,
       (_1, numStr, _3, expr) => ({
         command: 'evalTail',
         expr: expr,
@@ -210,7 +211,7 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
   ,
 
   add: () =>
-    UnlambdaStyleParser.addFunc
+    ES6FatArrowStyleParser.addFunc
     .map(([funcName, func]) => ({
       command: 'add',
       funcName: funcName,
@@ -219,7 +220,7 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
   ,
 
   update: () =>
-    UnlambdaStyleParser.updateFunc
+    ES6FatArrowStyleParser.updateFunc
     .map(([funcName, func]) => ({
       command: 'update',
       funcName: funcName,
@@ -231,7 +232,7 @@ const ES6FatArrowStyleCommandParser = P.createLanguage({
     P.seqMap(
       P.string('?'),
       P.optWhitespace,
-      UnlambdaStyleParser.ident,
+      ES6FatArrowStyleParser.ident,
       (_1, _2, ident) => ({
         command: 'info',
         ident: ident,

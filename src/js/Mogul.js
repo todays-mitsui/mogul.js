@@ -4,21 +4,19 @@ const defaultContext = require('./Context/defaultContext');
 const { parseDefs, parseCommand } = require('./Parser/Parser');
 
 class Mogul {
-  constructor() {
-    this.context = new Context();
-    this.console = [];
+  constructor(consoleOut) {
+    this.context = this.defaultContext;
+    this.consoleOut = consoleOut;
   }
 
   run(input) {
-    const command = this._parseCommand(input);
+    const command = parseCommand(input);
 
-    this.context = command.run(this.context, this.console);
+    this.consoleOut.splice(0);
+
+    this.context = command.run(this.context, this.consoleOut);
 
     return this;
-  }
-
-  _parseCommand(input) {
-    const command = parseCommand(input);
   }
 
   /**

@@ -1,5 +1,9 @@
+const Command = require('./Command');
+
 class UpdateCommand extends Command {
   constructor(funcName, func) {
+    super();
+
     this.funcName = funcName;
     this.func = func;
   }

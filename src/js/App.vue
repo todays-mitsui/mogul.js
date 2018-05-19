@@ -43,37 +43,33 @@ module.exports = {
 
   data: function() {
     return {
-      mogul: new Mogul(),
+      mogul: null,
 
-      lines: [
-        Expr.com('s').apply(Expr.com('k')).apply(Expr.com('k')),
-        Expr.com('i'),
-        Expr.lambda('x', Expr.var('x')),
-        Expr.lambda('x', Expr.lambda('y', Expr.var('y').apply(Expr.var('x')))),
-        Expr.lambda('x', Expr.var('x')).apply(Expr.sym('x')),
-      ],
+      lines: [],
     }
   },
 
   methods: {
     onSubmit: function(event, src) {
-      console.info(src);
+      window.mogul = this.mogul;
+
+      this.mogul.run(src);
     }
   },
 
   computed: {
     context: function() {
-      return this.mogul.defaultContext._toJS();
+      return this.mogul.context._toJS();
     },
+  },
+
+  created: function() {
+    this.mogul = new Mogul(this.lines);
   }
 }
 </script>
 
 <style scoped>
-.mogul-result {
-  background-color: #c0ffee;
-}
-
 .vertical-panes,
 .vertical-panes > .pane,
 .horizontal-panes {
