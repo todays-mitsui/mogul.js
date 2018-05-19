@@ -1,5 +1,5 @@
-const { UnlambdaStyleParser } = require('./UnlambdaStyleParser');
-const { UnlambdaStyleCommandParser } = require('./UnlambdaStyleParser');
+// const { Parser, CommandParser } = require('./UnlambdaStyleParser');
+const { Parser, CommandParser } = require('./ES6FatArrowStyleParser');
 
 const Variable   = require('../Types/Variable');
 const Combinator = require('../Types/Combinator');
@@ -20,7 +20,7 @@ const Context = require('../Context/Context');
  * @returns {Expr}
  */
 function parseExpr(src) {
-  const expr = UnlambdaStyleParser.expr.tryParse(src);
+  const expr = Parser.expr.tryParse(src);
 
   return normalize(new Set([]), expr);
 }
@@ -30,9 +30,12 @@ function parseExpr(src) {
  * @returns {Expr}
  */
 function parseDefs(src) {
-  const funcNameAndFuncs = UnlambdaStyleParser.def.many().tryParse(src);
+  const lines = src.split('\n').filter((line) => /\s*/.test(line));
 
-  return new Context(funcNameAndFuncs);
+  // const funcNameAndFuncs = Parser.def.many().tryParse(src);
+  let defs = lines.map((line) => Parser.def.tryParse(line));
+
+  return new Context(defs);
 }
 
 /**
@@ -40,7 +43,7 @@ function parseDefs(src) {
  * @returns {Expr}
  */
 function parseCommand(src) {
-  const command = UnlambdaStyleCommandParser.command.tryParse(src);
+  const command = CommandParser.command.tryParse(src);
 
   if (command.expr) {
     command.expr = normalize(new Set([]), command.expr);
