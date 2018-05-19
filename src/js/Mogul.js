@@ -1,5 +1,7 @@
-const Context = require('./Context/Context');
-const { parseCommand } = require('./Parser/Parser');
+const Context        = require('./Context/Context');
+const defaultContext = require('./Context/defaultContext');
+
+const { parseDefs, parseCommand } = require('./Parser/Parser');
 
 class Mogul {
   constructor() {
@@ -17,6 +19,15 @@ class Mogul {
 
   _parseCommand(input) {
     const command = parseCommand(input);
+  }
+
+  /**
+   * @returns {Context}
+   */
+  get defaultContext() {
+    // console.info(defaultContext);
+
+    return parseDefs(defaultContext.join('\n'));
   }
 }
 

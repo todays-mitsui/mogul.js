@@ -3,14 +3,14 @@ const assert = require('chai').assert
 const Expr = require('../src/js/Types/Expr');
 const Func = require('../src/js/Types/Func');
 
-const { UnlambdaStyleCommandParser } = require('../src/js/Parser/UnlambdaStyleParser')
+const { CommandParser } = require('../src/js/Parser/UnlambdaStyleParser')
 
 
 describe('UnlambdaStyleCommandParser', function () {
   describe('eval', function() {
     it('```skk:x', function() {
       const src = '```skk:x';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -33,7 +33,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('evalLast', function() {
     it('!```skk:x', function() {
       const src = '!```skk:x';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -54,7 +54,7 @@ describe('UnlambdaStyleCommandParser', function () {
 
     it('! ```skk:x', function() {
       const src = '! ```skk:x';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -77,7 +77,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('evalHead', function() {
     it(':10 ```skk:x', function() {
       const src = ':10 ```skk:x';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -102,7 +102,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('evalTail', function() {
     it(':-10 ```skk:x', function() {
       const src = ':-10 ```skk:x';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -127,7 +127,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('info', function() {
     it('?s', function() {
       const src = '?s';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -145,7 +145,7 @@ describe('UnlambdaStyleCommandParser', function () {
 
     it('? s', function() {
       const src = '? s';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -163,14 +163,14 @@ describe('UnlambdaStyleCommandParser', function () {
 
     it('?``skk', function() {
       const src = '?``skk';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.isFalse(parseResult.status);
     });
 
     it('?sk', function() {
       const src = '?sk';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.isFalse(parseResult.status);
     });
@@ -179,7 +179,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('context', function() {
     it('?', function() {
       const src = '?';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -198,7 +198,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('add', function() {
     it('```sxyz := ``xz`yz', function() {
       const src = '```sxyz := ``xz`yz';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 
@@ -224,7 +224,7 @@ describe('UnlambdaStyleCommandParser', function () {
   describe('update', function() {
     it('```sxyz = ``xz`yz', function() {
       const src = '```sxyz = ``xz`yz';
-      const parseResult = UnlambdaStyleCommandParser.command.parse(src);
+      const parseResult = CommandParser.command.parse(src);
 
       assert.instanceOf(parseResult.value, Object);
 

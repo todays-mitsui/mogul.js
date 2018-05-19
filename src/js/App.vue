@@ -13,7 +13,9 @@
       <multipane-resizer></multipane-resizer>
 
       <div class="pane pane-right" :style="{ flexGrow: 1, minWidth: '100px' }">
-        ### CONTEXT ###
+        <mogul-context
+          :context="context"
+        ></mogul-context>
       </div><!-- /.pane.pane-right -->
     </multipane>
   </div>
@@ -22,8 +24,10 @@
 <script>
 import { Multipane, MultipaneResizer } from 'vue-multipane';
 
-import MogulInput  from './Components/MogulInput.vue';
-import MogulResult from './Components/MogulResult.vue';
+import MogulInput   from './Components/MogulInput.vue';
+import MogulResult  from './Components/MogulResult.vue';
+import MogulContext from './Components/MogulContext.vue';
+
 
 import Expr  from './Types/Expr';
 import Mogul from './Mogul';
@@ -34,10 +38,13 @@ module.exports = {
     MultipaneResizer,
     MogulInput,
     MogulResult,
+    MogulContext,
   },
 
   data: function() {
     return {
+      mogul: new Mogul(),
+
       lines: [
         Expr.com('s').apply(Expr.com('k')).apply(Expr.com('k')),
         Expr.com('i'),
@@ -53,14 +60,16 @@ module.exports = {
       console.info(src);
     }
   },
+
+  computed: {
+    context: function() {
+      return this.mogul.defaultContext._toJS();
+    },
+  }
 }
 </script>
 
 <style scoped>
-.pane-right {
-  background-color: yellow;
-}
-
 .mogul-result {
   background-color: #c0ffee;
 }
@@ -74,6 +83,11 @@ module.exports = {
 .pane-left {
   display: flex;
   flex-direction: column;
+
+  border-right: 1px solid #999;
+}
+.pane-right {
+  border-left: 1px solid #999;
 }
 .mogul-result {
   flex-grow: 1;

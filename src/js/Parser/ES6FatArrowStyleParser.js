@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const P = require('parsimmon');
 
 const Variable   = require('../Types/Variable');
@@ -10,35 +11,62 @@ const Func = require('../Types/Func');
 
 const token = parser => ( P.optWhitespace.then(parser).skip(P.optWhitespace) );
 
-const UnlambdaStyleParser = P.createLanguage({
+const parens = parser => (
+  parser.trim(P.optWhitespace)
+    .wrap(P.string('('), P.string(')'))
+);
+
+const optParens = parser => (
+  parser.trim(P.optWhitespace)
+    .wrap(P.string('('), P.string(')'))
+    .or(parser)
+);
+
+const ES6FatArrowStyleParser = P.createLanguage({
   // 式
   expr: r =>
+    r.exprs.map(buildApplys)
+  ,
+
+  // Apply 以外の式
+  _expr: r =>
     P.alt(
-      r.apply,
       r.lambda,
       r.symbl,
       r.variable
-    )//.thru(parser => P.optWhitespace.then(parser))
+    )
   ,
 
-  // 適用
-  apply: r =>
+  exprs: r =>
     P.seqMap(
-      token(P.string('`')),
-      token(r.expr),
-      token(r.expr),
-      (_, left, right) => ( new Apply(left, right) )
+      token(optParens(r._expr)),
+      r._exprs,
+      (expr, exprs) => {
+        if (exprs.length === 0) {
+          return expr;
+        } else {
+          return [].concat([expr], exprs);
+        }
+      }
     )
+  ,
+
+  _exprs: r =>
+    parens(token(r.exprs)).many()
   ,
 
   // 抽象
   lambda: r =>
     P.seqMap(
-      token(P.string('^')),
-      token(r.ident),
-      token(P.string('.')),
-      token(r.expr),
-      (_1, param, _3, body) => ( new Lambda(param, body) )
+      token(optParens(r.params)),
+      token(P.string('=>')),
+      token(optParens(r.expr)),
+      (params, _, body) => { 
+        return params.reduceRight(
+          (expr, param) => ( new Lambda(param, expr) ),
+          body
+        );
+      }
     )
   ,
 
@@ -56,13 +84,7 @@ const UnlambdaStyleParser = P.createLanguage({
   ,
 
   // 識別子
-  ident: r =>
-    P.alt(r.singleVariable, r.longVariable)
-  ,
-
-  singleVariable: () => token(P.range('a', 'z')),
-
-  longVariable:   () => token(P.regex(/[A-Z0-9_]+/)),
+  ident: () => token(P.regex(/[a-zA-Z0-9_]+/)),
 
 
   def: r =>
@@ -85,7 +107,7 @@ const UnlambdaStyleParser = P.createLanguage({
   // 関数定義(定義済み関数の上書きを許す)
   updateFunc: r =>
     P.seqMap(
-      token(r.lvalue),
+      r.lvalue,
       token(P.string('=')),
       token(r.expr),
       ([funcName, params], _, bareExpr) => ( [funcName, new Func(params, bareExpr)] )
@@ -96,21 +118,35 @@ const UnlambdaStyleParser = P.createLanguage({
   // 関数定義の左辺値
   lvalue: r =>
     P.alt(
-      r.lvalue_,
-      r.ident.map(ident => [ident, []])
+      P.seqMap(
+        r.ident,
+        token(parens(r.params)),
+        (funcName, params) => ([funcName, params])
+      ),
+      r.ident.map(funcName => [funcName, []])
     ).skip(P.optWhitespace)
   ,
-  lvalue_: r =>
-    P.seqMap(
-      token(P.string('`')),
-      r.lvalue,
-      r.ident,
-      (_, [funcName, params], param) => ( [funcName, [].concat(params, [param])] )
-    ).skip(P.optWhitespace)
+
+  params: r => 
+    r.ident.sepBy(P.regexp(/\s*,\s*/))
   ,
+
 });
 
-const UnlambdaStyleCommandParser = P.createLanguage({
+function buildApplys(exprs) {
+  if (!_.isArray(exprs)) {
+    return exprs;
+  }
+
+  return exprs.reduce((left, right) => {
+    return new Apply(
+      left,
+      buildApplys(right)
+    );
+  })
+}
+
+const ES6FatArrowStyleCommandParser = P.createLanguage({
   command: r =>
     P.alt(
       r.evalLast,
@@ -216,6 +252,6 @@ const UnlambdaStyleCommandParser = P.createLanguage({
 });
 
 module.exports = {
-  Parser       : UnlambdaStyleParser,
-  CommandParser: UnlambdaStyleCommandParser,
+  Parser       : ES6FatArrowStyleParser,
+  CommandParser: ES6FatArrowStyleCommandParser,
 };

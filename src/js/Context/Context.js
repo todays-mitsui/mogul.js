@@ -43,6 +43,10 @@ class Context extends ContextRecord {
   _delete(funcName) {
     return this.update('store', store => store.delete(funcName));
   }
+
+  _toJS() {
+    return this.get('store').toJS();
+  }
 }
 
 module.exports = Context;
