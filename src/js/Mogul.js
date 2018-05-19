@@ -23,8 +23,6 @@ class Mogul {
    * @returns {Context}
    */
   get defaultContext() {
-    // console.info(defaultContext);
-
     return parseDefs(defaultContext.join('\n'));
   }
 }
