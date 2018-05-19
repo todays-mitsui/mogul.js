@@ -20,7 +20,7 @@ module.exports = {
 
   data: function() {
     return {
-      src: '',
+      src: 'and(true)(or(false)(true))',
       focus: false,
     }
   },

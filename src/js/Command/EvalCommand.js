@@ -1,5 +1,9 @@
+const Command = require('./Command');
+
 class EvalCommand extends Command {
   constructor(expr) {
+    super();
+
     this.expr = expr;
     this.limit = 100;
   }
@@ -19,10 +23,15 @@ class EvalCommand extends Command {
     let result = iter.next();
     while (!result.done) {
       const expr = result.value;
-      stream.push(expr);
+
+      console.info(result.done);
+      consoleOut.push(expr);
 
       result = iter.next();
     }
+
+    console.info('### ', result.done, ' ###');
+
 
     return context;
   }

@@ -59,6 +59,8 @@ class Expr {
    * @returns {Iterable<Expr>}
    */
   evals(context) {
+    console.info(context);
+
     const Eval = require('../Eval');
 
     return (new Eval(context, this)).sequence();

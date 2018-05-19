@@ -1,3 +1,5 @@
+require('babel-polyfill');
+
 const { Stack } = require('immutable');
 const _ = require('lodash');
 
