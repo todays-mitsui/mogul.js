@@ -1,35 +1,23 @@
 <template>
-  <div class="mogul-func" role="mogul-func">
-    <span class="mogul-func-funcname" role="mogul-func-funcname">{{ funcName }}</span>
-
-    <span
-      class="mogul-func-params"
-      role ="mogul-func-params"
+  <div role="mogul-func"><span
+    role="funcname"
+  >{{ funcName }}</span><span
       v-if="func.params.length !== 0"
-    >
-      <span class="mogul-func-params-openparen">(</span>
-
-      <span
-        class="mogul-func-params-inner"
-        role ="mogul-func-params-inner"
-      >
-        <span
-          class="mogul-func-params-paramname"
-          v-for="param in func.params"
-        >{{ param }}</span>
-      </span>
-
-      <span class="mogul-func-params-closeparen">)</span>
-    </span><!-- /.mogul-func-funcname -->
-
-    <span class="mogul-func-eq" role="mogul-func-eq">=</span>
-
-    <span class="mogul-func-body" role="mogul-func-body">
-      <mogul-expr
-        :expr="func.bareExpr"
-      ></mogul-expr>
-    </span><!-- /.mogul-func-body -->
-  </div><!-- /.mogul-func -->
+      role="params"
+  ><span role="openparen">(</span><template
+        v-for="(param, index) in func.params"
+  ><span
+          role="param"
+          :key="2*index"
+  >{{ param }}</span><span
+          v-if="index !== func.params.length - 1"
+          role="comma"
+          :key="2*index+1"
+  >,</span></template><span
+      role="mogul-func-params-closeparen">)</span></span
+  ><span role="eq">=</span
+  ><span role="body"><mogul-expr :expr="func.bareExpr"></mogul-expr></span
+  ></div>
 </template>
 
 <script>
@@ -45,26 +33,11 @@ export default {
 </script>
 
 <style scoped>
-.mogul-func {
-  font-size: 0;
-}
-
-.mogul-func-funcname,
-.mogul-func-params-openparen,
-.mogul-func-params-paramname,
-.mogul-func-params-closeparen,
-.mogul-func-eq,
-.mogul-func-body {
+[role=mogul-func] {
   display: inline-block;
-
-  font-size: 14px;
 }
-
-.mogul-func-eq {
+[role=eq] {
+  display: inline-block;
   margin: 0 .5em;
-}
-
-.mogul-func-params-paramname:not(:last-child)::after {
-  content: ", ";
 }
 </style>

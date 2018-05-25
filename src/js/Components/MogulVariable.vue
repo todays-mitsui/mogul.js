@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style scoped>
-span {
+[role=mogul-variable] {
   display: inline-block;
 }
 </style>

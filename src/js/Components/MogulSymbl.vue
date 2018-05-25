@@ -9,9 +9,8 @@ export default {
 </script>
 
 <style scoped>
-span {
+[role=mogul-symbl] {
   display: inline-block;
-
   font-weight: 700px;
 }
 </style>
