@@ -1,7 +1,10 @@
 <template>
   <div class="mogul-context">
     <ul>
-      <li v-for="(func, funcName) in context">
+      <li
+        v-for="(func, funcName) in context"
+        :key="funcName"
+      >
         <mogul-func
           :funcName="funcName"
           :func="func"
