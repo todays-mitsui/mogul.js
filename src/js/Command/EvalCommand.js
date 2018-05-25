@@ -24,14 +24,10 @@ class EvalCommand extends Command {
     while (!result.done) {
       const expr = result.value;
 
-      console.info(result.done);
       consoleOut.push(expr);
 
       result = iter.next();
     }
-
-    console.info('### ', result.done, ' ###');
-
 
     return context;
   }

@@ -16,9 +16,9 @@ class UpdateCommand extends Command {
    * @returns {Context}               更新された context
    */
   run(context, consoleOut) {
-    context.set(funcName, func);
+    console.info(this.funcName, this.func);
 
-    return context;
+    return context._add(this.funcName, this.func);
   }
 }
 
