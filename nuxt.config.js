@@ -16,7 +16,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700|Yellowtail' }
     ]
   },
 
@@ -29,12 +30,14 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '~/assets/css/sanitize.css',
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/parser.js'
   ],
 
   /*
