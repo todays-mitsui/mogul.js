@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'std-in': true, monospace: true, focus }"
+    :class="{ 'std-in': true, focus }"
   >
     <p class="prompt">
       &gt;
@@ -53,6 +53,7 @@ export default {
   display: flex;
 
   line-height: 0;
+  font-family: 'Source Code Pro', monospace;
 
   border-top: 1px solid #ccc;
 }

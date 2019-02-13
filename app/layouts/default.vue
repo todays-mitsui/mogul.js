@@ -28,8 +28,4 @@ export default {
 .page {
   flex-grow: 1;
 }
-
-.monospace {
-  font-family: 'Source Code Pro', monospace;
-}
 </style>

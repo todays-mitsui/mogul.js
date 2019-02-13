@@ -9512,7 +9512,7 @@ tty-browserify@0.0.0:
 
 "tuber@git+https://github.com/todays-mitsui/tuber.git#master":
   version "1.0.0"
-  resolved "git+https://github.com/todays-mitsui/tuber.git#fdcca59a72d944576d1e20b123f069bf8c8356ad"
+  resolved "git+https://github.com/todays-mitsui/tuber.git#f5635b967072f20fbd7883d90285504acdaaf614"
   dependencies:
     "@types/ramda" "^0.25.47"
     immutable "^4.0.0-rc.12"
