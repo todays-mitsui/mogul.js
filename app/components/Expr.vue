@@ -9,6 +9,11 @@
     :label="expr.label"
   />
 
+  <symbl
+    v-else-if="expr.type === 'Symbol'"
+    :label="expr.label"
+  />
+
   <apply
     v-else-if="expr.type === 'Apply'"
     :left="expr.left"
@@ -25,6 +30,7 @@
 <script>
 import Variable from './Expr/Variable.vue'
 import Combinator from './Expr/Combinator.vue'
+import Symbl from './Expr/Symbl.vue'
 import Apply from './Expr/Apply.vue'
 import Lambda from './Expr/Lambda.vue'
 
@@ -32,6 +38,7 @@ export default {
   components: {
     Variable,
     Combinator,
+    Symbl,
     Apply,
     Lambda
   },

@@ -27,7 +27,7 @@ export const mutations = {
     state.calculator.def(identifier, callable)
 
     state.console.push({
-      type: 'Def',
+      type: 'Defined',
       name: identifier,
       body: callable.toJSON(),
       timestamp: (new Date()).getTime()
