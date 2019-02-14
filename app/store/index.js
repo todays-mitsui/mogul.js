@@ -2,12 +2,12 @@ import { Calculator, EmptyContextLoader, es2015StyleParser as parser } from 'tub
 
 export const state = () => ({
   console: [],
-  calculator: new Calculator(new EmptyContextLoader())
+  calculator: new Calculator(new EmptyContextLoader()),
+  history: []
 })
 
 export const getters = {
-  context: state => state.calculator.context,
-  histroy: state => state.calculator.histrory
+  context: state => state.calculator.context
 }
 
 export const mutations = {
@@ -39,7 +39,7 @@ export const mutations = {
 
     if (callable) {
       state.console.push({
-        type: 'Find',
+        type: 'Found',
         name: identifier,
         body: callable.toJSON(),
         timestamp: (new Date()).getTime()
@@ -51,19 +51,47 @@ export const mutations = {
         timestamp: (new Date()).getTime()
       })
     }
+  },
+
+  runVoid(state) {
+    state.console.push({
+      type: 'Void'
+    })
+  },
+
+  notifyParseError(state, { input, err }) {
+    state.console.push({
+      type: 'ParseError',
+      input,
+      err
+    })
   }
 }
 
 export const actions = {
   run({ commit }, { input }) {
-    const command = parser.parseCommand(input)
+    if (!input) {
+      commit('runVoid')
+
+      return
+    }
+
+    let command
+    try {
+      command = parser.parseCommand(input)
+    } catch (err) {
+      commit('notifyParseError', { input, err })
+
+      return
+    }
+
     console.info('Run Command:', command)
 
     switch (command.action) {
       case 'Eval':
         commit('runEval', { expr: command.expr })
 
-        break
+        return
 
       case 'Add':
       case 'Update':
@@ -72,14 +100,14 @@ export const actions = {
           callable: command.callable
         })
 
-        break
+        return
 
       case 'Info':
         commit('runInfo', {
           identifier: command.identifier
         })
 
-        break
+        return
 
       default:
         console.log('### default ###')
