@@ -13,14 +13,16 @@ header {
   align-items: flex-end;
 
   padding: 1px 0;
-  border-bottom: 1px solid #ccc;
+
+  background-image: linear-gradient(to right top, #e96, #ee8166);
 }
 
 h1 {
-  margin: .1em .4em .2em;
+  margin: .06em .4em .2em;
 
-  color: #e96;
-  font-size: 46px;
+  /* color: #e96; */
+  color: #fff;
+  font-size: 36px;
   font-weight: 400;
   font-family: 'Yellowtail', cursive;
   line-height: 1.15;
@@ -28,9 +30,10 @@ h1 {
 
 p {
   margin: 0;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 
-  color: #e96;
+  /* color: #e96; */
+  color: #fff;
   font-size: 12px;
 }
 </style>
