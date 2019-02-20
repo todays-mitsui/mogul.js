@@ -10,30 +10,31 @@
 <style scoped>
 header {
   display: flex;
-  align-items: flex-end;
 
-  padding: 1px 0;
+  height: 60px;
 
   background-image: linear-gradient(to right top, #e96, #ee8166);
 }
 
 h1 {
-  margin: .06em .4em .2em;
+  height: 100%;
+  margin: 0 .4em;
+  padding: 10px 0;
 
-  /* color: #e96; */
   color: #fff;
   font-size: 36px;
   font-weight: 400;
   font-family: 'Yellowtail', cursive;
-  line-height: 1.15;
+  line-height: 40px;
 }
 
 p {
+  height: 100%;
   margin: 0;
-  margin-bottom: 14px;
+  padding: 10px 0;
 
-  /* color: #e96; */
   color: #fff;
   font-size: 12px;
+  line-height: 40px;
 }
 </style>

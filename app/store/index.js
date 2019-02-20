@@ -1,8 +1,9 @@
-import { Calculator, EmptyContextLoader, es2015StyleParser as parser } from 'tuber'
+import { Calculator, FromJSONContextLoader, es2015StyleParser as parser } from 'tuber'
+import defaultContextSrc from '~/assets/DefaultContext.json'
 
 export const state = () => ({
   console: [],
-  calculator: new Calculator(new EmptyContextLoader()),
+  calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
   history: []
 })
 

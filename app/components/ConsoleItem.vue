@@ -59,7 +59,15 @@ export default {
     values: {
       type: Object,
       required: true
+    },
+    onMounted: {
+      type: Function,
+      default: null
     }
+  },
+
+  mounted() {
+    this.onMounted && this.onMounted()
   }
 }
 </script>

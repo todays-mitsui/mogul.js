@@ -13,6 +13,7 @@
       @blur="focus = false"
       @keydown.shift.enter="onShiftEnter"
       @keydown.enter="onEnter"
+      @keydown.up="onUp"
     />
   </div>
 </template>
@@ -34,7 +35,6 @@ export default {
 
       event.preventDefault()
 
-      console.log(this.$store.state.calculator)
       this.$store.dispatch('run', { input: this.input })
 
       this.input = ''
@@ -43,6 +43,11 @@ export default {
     onShiftEnter: function (event) {
       console.info('Shift + Enter')
       console.log(event)
+    },
+
+    onUp: function (event) {
+      console.info('Up')
+      console.info(event.target.selectionStart)
     }
   }
 }

@@ -12,6 +12,7 @@
         <span class="combinator">{{ name }}</span>
       </li>
     </ol>
+    <p class="summary">undefined.</p>
   </div>
 </template>
 
@@ -25,3 +26,33 @@ export default {
   }
 }
 </script>
+
+<style>
+.console .undefined {
+  border-bottom: 1px solid #ccc;
+}
+
+.console .undefined li {
+  position: relative;
+
+  padding: .3em 0;
+  padding-left: 1.4em;
+}
+
+.console .undefined li:first-child::before {
+  content: ">";
+  transform: translateY(-50%);
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1000;
+
+  width: 16px;
+
+  color: #999;
+  font-size: .8em;
+  font-weight: 600;
+  text-align: right;
+}
+</style>
