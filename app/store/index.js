@@ -12,13 +12,13 @@ export const getters = {
 }
 
 export const mutations = {
-  runEval(state, { expr }) {
-    const { sequence, step, done } = state.calculator.eval(expr)
+  runEval(state, { expr, last }) {
+    const { sequence, done } = state.calculator.eval(expr)
 
     state.console.push({
       type: 'EvalSequence',
       sequence: sequence.map(expr => expr.toJSON()),
-      step,
+      last: !!last,
       done,
       timestamp: (new Date()).getTime()
     })
@@ -91,6 +91,14 @@ export const actions = {
     switch (command.action) {
       case 'Eval':
         commit('runEval', { expr: command.expr })
+
+        return
+
+      case 'EvalLast':
+        commit('runEval', {
+          expr: command.expr,
+          last: true
+        })
 
         return
 

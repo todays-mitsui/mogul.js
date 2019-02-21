@@ -2,6 +2,7 @@
   <eval-sequence
     v-if="type === 'EvalSequence'"
     :sequence="values.sequence"
+    :last="values.last"
     :done="values.done"
   />
 
