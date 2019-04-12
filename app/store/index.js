@@ -4,7 +4,8 @@ import defaultContextSrc from '~/assets/DefaultContext.json'
 export const state = () => ({
   console: [],
   calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
-  history: []
+  history: [],
+  contextPanelEnable: false
 })
 
 export const getters = {

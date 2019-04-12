@@ -4,9 +4,9 @@
     :allow-resize="true"
     primary="second"
     units="percents"
-    :size="20"
-    :max-size="90"
-    :min-size="10"
+    :size="defaultWidth"
+    :max-size="100 - defaultWidth"
+    :min-size="defaultWidth"
     :resizer-thickness="2"
     :resizer-border-thickness="2"
     resizer-color="#ccc"
@@ -30,6 +30,12 @@ export default {
     'rs-panes': ResSplitPane,
     MainPanel,
     ContextPanel
+  },
+
+  asyncData() {
+    return {
+      defaultWidth: 60 * 100 / window.innerWidth
+    }
   }
 }
 </script>
