@@ -8,7 +8,9 @@
         />
       </li>
     </ol>
-    <p class="summary">defined.</p>
+    <p class="summary">
+      defined.
+    </p>
   </div>
 </template>
 

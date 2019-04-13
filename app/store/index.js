@@ -9,7 +9,9 @@ export const state = () => ({
 })
 
 export const getters = {
-  context: state => state.calculator.context
+  context: state => state.calculator.context,
+
+  contextLength: state => state.calculator.context.length
 }
 
 export const mutations = {
