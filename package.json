@@ -1,11 +1,11 @@
 {
-  "name": "Mogul",
+  "name": "mogul",
   "version": "1.0.0",
   "description": "An interpreter that evaluates λ-calculations step by step.",
   "author": "Mitsui &lt;todays.mitsui@gmail.com&gt;",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --port 3333",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -14,7 +14,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.0",
     "lodash": "^4.17.11",
     "nuxt": "^2.4.0",
@@ -38,6 +37,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
-    "vue-jest": "^3.0.2"
+    "vue-jest": "^3.0.2",
+    "vue-svg-loader": "^0.12.0"
   }
 }

@@ -30,7 +30,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    '~/assets/css/sanitize.css',
+    '~/assets/css/sanitize.css'
   ],
 
   /*
@@ -43,9 +43,7 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: [,
-    '@nuxtjs/pwa'
-  ],
+  modules: [],
 
   /*
   ** Build configuration
@@ -62,6 +60,15 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
+        })
+
+        const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
+
+        svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+        config.module.rules.push({
+          test: /\.svg$/,
+          loader: 'vue-svg-loader'
         })
       }
     }
