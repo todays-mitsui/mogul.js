@@ -1,6 +1,8 @@
 <template>
   <div class="easy-open-ends">
-    <button>
+    <button
+      @click="toggleContextPanel"
+    >
       <function-icon />
       <!-- eslint-disable-next-line -->
       <span class="times">×</span>
@@ -11,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import FunctionIcon from '~/assets/img/function_icon.svg'
 
 export default {
@@ -21,6 +23,10 @@ export default {
 
   computed: {
     ...mapGetters(['contextLength'])
+  },
+
+  methods: {
+    ...mapActions(['toggleContextPanel'])
   }
 }
 </script>

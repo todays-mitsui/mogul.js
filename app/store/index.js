@@ -1,17 +1,24 @@
 import { Calculator, FromJSONContextLoader, es2015StyleParser as parser } from 'tuber'
 import defaultContextSrc from '~/assets/DefaultContext.json'
 
+const MIN_WIDTH = 60
+
 export const state = () => ({
   console: [],
   calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
   history: [],
-  contextPanelEnable: false
+  contextPanelWidth: MIN_WIDTH
 })
 
 export const getters = {
   context: state => state.calculator.context,
 
-  contextLength: state => state.calculator.context.length
+  contextLength: state => state.calculator.context.length,
+
+  contextPanelWidth: state => state.contextPanelWidth,
+
+  minContextPanelWidth: state => MIN_WIDTH,
+  maxContextPanelWidth: state => window.innerWidth - MIN_WIDTH
 }
 
 export const mutations = {
@@ -69,6 +76,18 @@ export const mutations = {
       input,
       err
     })
+  },
+
+  toggleContextPanel(state) {
+    if (state.contextPanelWidth <= MIN_WIDTH) {
+      state.contextPanelWidth = ~~(window.innerWidth / 2)
+    } else {
+      state.contextPanelWidth = MIN_WIDTH
+    }
+  },
+
+  updateContextPanelWidth(state, { width }) {
+    state.contextPanelWidth = width
   }
 }
 
@@ -124,5 +143,13 @@ export const actions = {
       default:
         console.log('### default ###')
     }
+  },
+
+  toggleContextPanel({ commit }) {
+    commit('toggleContextPanel')
+  },
+
+  onUpdateContextPanelWidth({ commit }, width) {
+    commit('updateContextPanelWidth', { width })
   }
 }
