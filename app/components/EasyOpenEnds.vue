@@ -54,7 +54,7 @@ button {
   outline: none;
 
   background: none;
-  background-image: linear-gradient(to right top, #e96, #ee8166);
+  background-image: linear-gradient(to right bottom, #e96, #ee8166);
 
   cursor: pointer;
 }
