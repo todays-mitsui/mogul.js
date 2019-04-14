@@ -90,7 +90,7 @@
         {
             "name": "if",
             "params": [
-                "pred",
+                "predicate",
                 "then",
                 "else"
             ],
@@ -100,7 +100,7 @@
                     "type": "Apply",
                     "left": {
                         "type": "Variable",
-                        "label": "pred"
+                        "label": "predicate"
                     },
                     "right": {
                         "type": "Variable",
@@ -303,22 +303,750 @@
                         "type": "Lambda",
                         "param": "_",
                         "body": {
-                            "type": "Lambda",
-                            "param": "_",
-                            "body": {
-                                "type": "Lambda",
-                                "param": "_",
-                                "body": {
-                                    "type": "Combinator",
-                                    "label": "false"
-                                }
-                            }
+                            "type": "Combinator",
+                            "label": "false"
                         }
                     }
                 },
                 "right": {
                     "type": "Combinator",
                     "label": "true"
+                }
+            }
+        },
+        {
+            "name": "Y",
+            "params": [
+                "f"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "x"
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "x"
+                            }
+                        }
+                    }
+                },
+                "right": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "x"
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "x"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "isZero",
+            "params": [
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Variable",
+                        "label": "n"
+                    },
+                    "right": {
+                        "type": "Lambda",
+                        "param": "_",
+                        "body": {
+                            "type": "Combinator",
+                            "label": "false"
+                        }
+                    }
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "true"
+                }
+            }
+        },
+        {
+            "name": "succ",
+            "params": [
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "n"
+                                },
+                                "right": {
+                                    "type": "Variable",
+                                    "label": "f"
+                                }
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "x"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "add",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "m"
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "f"
+                            }
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "n"
+                                },
+                                "right": {
+                                    "type": "Variable",
+                                    "label": "f"
+                                }
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "x"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "mul",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Variable",
+                        "label": "m"
+                    },
+                    "right": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "n"
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "f"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "pow",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Variable",
+                    "label": "n"
+                },
+                "right": {
+                    "type": "Variable",
+                    "label": "m"
+                }
+            }
+        },
+        {
+            "name": "pred",
+            "params": [
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "n"
+                                },
+                                "right": {
+                                    "type": "Lambda",
+                                    "param": "g",
+                                    "body": {
+                                        "type": "Lambda",
+                                        "param": "h",
+                                        "body": {
+                                            "type": "Apply",
+                                            "left": {
+                                                "type": "Variable",
+                                                "label": "h"
+                                            },
+                                            "right": {
+                                                "type": "Apply",
+                                                "left": {
+                                                    "type": "Variable",
+                                                    "label": "g"
+                                                },
+                                                "right": {
+                                                    "type": "Variable",
+                                                    "label": "f"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "Lambda",
+                                "param": "u",
+                                "body": {
+                                    "type": "Variable",
+                                    "label": "x"
+                                }
+                            }
+                        },
+                        "right": {
+                            "type": "Lambda",
+                            "param": "u",
+                            "body": {
+                                "type": "Variable",
+                                "label": "u"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "sub",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Variable",
+                        "label": "n"
+                    },
+                    "right": {
+                        "type": "Combinator",
+                        "label": "pred"
+                    }
+                },
+                "right": {
+                    "type": "Variable",
+                    "label": "m"
+                }
+            }
+        },
+        {
+            "name": "gte",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "isZero"
+                },
+                "right": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Combinator",
+                            "label": "sub"
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "n"
+                        }
+                    },
+                    "right": {
+                        "type": "Variable",
+                        "label": "m"
+                    }
+                }
+            }
+        },
+        {
+            "name": "lte",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "isZero"
+                },
+                "right": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Combinator",
+                            "label": "sub"
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "m"
+                        }
+                    },
+                    "right": {
+                        "type": "Variable",
+                        "label": "n"
+                    }
+                }
+            }
+        },
+        {
+            "name": "eq",
+            "params": [
+                "m",
+                "n"
+            ],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Combinator",
+                        "label": "and"
+                    },
+                    "right": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Combinator",
+                                "label": "gte"
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "m"
+                            }
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "n"
+                        }
+                    }
+                },
+                "right": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Combinator",
+                            "label": "lte"
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "m"
+                        }
+                    },
+                    "right": {
+                        "type": "Variable",
+                        "label": "n"
+                    }
+                }
+            }
+        },
+        {
+            "name": "0",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Variable",
+                        "label": "x"
+                    }
+                }
+            }
+        },
+        {
+            "name": "1",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Variable",
+                            "label": "x"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "2",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "f"
+                            },
+                            "right": {
+                                "type": "Variable",
+                                "label": "x"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "3",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "f"
+                            },
+                            "right": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "f"
+                                },
+                                "right": {
+                                    "type": "Variable",
+                                    "label": "x"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "4",
+            "params": [],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "2"
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "2"
+                }
+            }
+        },
+        {
+            "name": "5",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "f"
+                            },
+                            "right": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "f"
+                                },
+                                "right": {
+                                    "type": "Apply",
+                                    "left": {
+                                        "type": "Variable",
+                                        "label": "f"
+                                    },
+                                    "right": {
+                                        "type": "Apply",
+                                        "left": {
+                                            "type": "Variable",
+                                            "label": "f"
+                                        },
+                                        "right": {
+                                            "type": "Variable",
+                                            "label": "x"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "6",
+            "params": [],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "mul"
+                },
+                "right": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Combinator",
+                        "label": "2"
+                    },
+                    "right": {
+                        "type": "Combinator",
+                        "label": "3"
+                    }
+                }
+            }
+        },
+        {
+            "name": "7",
+            "params": [],
+            "bareExpr": {
+                "type": "Lambda",
+                "param": "f",
+                "body": {
+                    "type": "Lambda",
+                    "param": "x",
+                    "body": {
+                        "type": "Apply",
+                        "left": {
+                            "type": "Variable",
+                            "label": "f"
+                        },
+                        "right": {
+                            "type": "Apply",
+                            "left": {
+                                "type": "Variable",
+                                "label": "f"
+                            },
+                            "right": {
+                                "type": "Apply",
+                                "left": {
+                                    "type": "Variable",
+                                    "label": "f"
+                                },
+                                "right": {
+                                    "type": "Apply",
+                                    "left": {
+                                        "type": "Variable",
+                                        "label": "f"
+                                    },
+                                    "right": {
+                                        "type": "Apply",
+                                        "left": {
+                                            "type": "Variable",
+                                            "label": "f"
+                                        },
+                                        "right": {
+                                            "type": "Apply",
+                                            "left": {
+                                                "type": "Variable",
+                                                "label": "f"
+                                            },
+                                            "right": {
+                                                "type": "Apply",
+                                                "left": {
+                                                    "type": "Variable",
+                                                    "label": "f"
+                                                },
+                                                "right": {
+                                                    "type": "Variable",
+                                                    "label": "x"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "name": "8",
+            "params": [],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "3"
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "2"
+                }
+            }
+        },
+        {
+            "name": "9",
+            "params": [],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "2"
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "3"
+                }
+            }
+        },
+        {
+            "name": "10",
+            "params": [],
+            "bareExpr": {
+                "type": "Apply",
+                "left": {
+                    "type": "Combinator",
+                    "label": "mul"
+                },
+                "right": {
+                    "type": "Apply",
+                    "left": {
+                        "type": "Combinator",
+                        "label": "2"
+                    },
+                    "right": {
+                        "type": "Combinator",
+                        "label": "5"
+                    }
                 }
             }
         }
