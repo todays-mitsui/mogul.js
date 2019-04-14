@@ -19,10 +19,18 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data() {
+    const defaultInputs = [
+      's(k, k)(:x)',
+      'and(true, or(false, true))',
+      'eq(add(2, 1), 3)'
+    ]
+
     return {
-      input: 'and(true, or(false, true))',
+      input: _.sample(defaultInputs),
       focus: false
     }
   },
