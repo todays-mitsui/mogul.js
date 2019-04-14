@@ -62,4 +62,7 @@ export default {
 .second-pane {
   height: 100%;
 }
+.second-pane {
+  overflow-y: scroll;
+}
 </style>
