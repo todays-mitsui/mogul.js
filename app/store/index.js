@@ -3,22 +3,24 @@ import defaultContextSrc from '~/assets/DefaultContext.json'
 
 const MIN_WIDTH = 60
 
-export const state = () => ({
-  console: [],
-  calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
-  history: [],
-  contextPanelWidth: MIN_WIDTH
-})
+export const state = () => {
+  const contextPanelWidth = window.innerWidth < 1200 ? MIN_WIDTH : ~~(window.innerWidth / 2)
+
+  return {
+    console: [],
+    calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
+    history: [],
+    contextPanelWidth
+  }
+}
 
 export const getters = {
   context: state => state.calculator.context,
-
   contextLength: state => state.calculator.context.length,
 
   contextPanelWidth: state => state.contextPanelWidth,
-
-  minContextPanelWidth: state => MIN_WIDTH,
-  maxContextPanelWidth: state => window.innerWidth - MIN_WIDTH
+  minContextPanelWidth: () => MIN_WIDTH,
+  maxContextPanelWidth: () => window.innerWidth - MIN_WIDTH
 }
 
 export const mutations = {
