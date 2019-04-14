@@ -45,6 +45,23 @@ export const mutations = {
     })
   },
 
+  runDel(state, { identifier }) {
+    state.calculator.del(identifier)
+
+    state.console.push({
+      type: 'Defined',
+      name: identifier,
+      body: {
+        params: [],
+        bareExpr: {
+          type: 'Combinator',
+          label: identifier
+        }
+      },
+      timestamp: (new Date()).getTime()
+    })
+  },
+
   runInfo(state, { identifier }) {
     const callable = state.calculator.info(identifier)
 
@@ -129,6 +146,13 @@ export const actions = {
         commit('runDef', {
           identifier: command.identifier,
           callable: command.callable
+        })
+
+        return
+
+      case 'Delete':
+        commit('runDel', {
+          identifier: command.identifier
         })
 
         return
