@@ -54,6 +54,9 @@ export default {
 .pane-rs.root {
   height: calc(100% - 60px);
 }
+.pane-rs.root > .Pane {
+  transition: width 250ms;
+}
 
 .first-pane,
 .second-pane {
