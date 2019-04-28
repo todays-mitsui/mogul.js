@@ -917,19 +917,19 @@
             "bareExpr": {
                 "type": "Apply",
                 "left": {
-                    "type": "Combinator",
-                    "label": "mul"
-                },
-                "right": {
                     "type": "Apply",
                     "left": {
                         "type": "Combinator",
-                        "label": "2"
+                        "label": "mul"
                     },
                     "right": {
                         "type": "Combinator",
-                        "label": "3"
+                        "label": "2"
                     }
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "3"
                 }
             }
         },
@@ -1034,19 +1034,19 @@
             "bareExpr": {
                 "type": "Apply",
                 "left": {
-                    "type": "Combinator",
-                    "label": "mul"
-                },
-                "right": {
                     "type": "Apply",
                     "left": {
                         "type": "Combinator",
-                        "label": "2"
+                        "label": "mul"
                     },
                     "right": {
                         "type": "Combinator",
-                        "label": "5"
+                        "label": "2"
                     }
+                },
+                "right": {
+                    "type": "Combinator",
+                    "label": "5"
                 }
             }
         }
