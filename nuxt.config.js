@@ -1,13 +1,13 @@
-const pkg = require('./package')
+import pkg from './package'
 
-module.exports = {
+export default {
   mode: 'spa',
 
   srcDir: 'app',
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'Mogul ⛷ | evaluates λ-calculations step by step.',
     meta: [
@@ -17,41 +17,45 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700|Yellowtail' }
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700|Yellowtail'
+      }
     ]
   },
 
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#fff' },
 
   /*
-  ** Global CSS
-  */
-  css: [
-    '~/assets/css/sanitize.css'
-  ],
+   ** Global CSS
+   */
+  css: ['~/assets/css/sanitize.css'],
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-    '~/plugins/parser.js'
-  ],
+   ** Plugins to load before mounting the App
+   */
+  plugins: [],
 
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [],
 
+  server: {
+    port: 3333
+  },
+
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
+     ** You can extend webpack config here
+     */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
@@ -61,16 +65,16 @@ module.exports = {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
-
-        const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
-
-        svgRule.test = /\.(png|jpe?g|gif|webp)$/;
-
-        config.module.rules.push({
-          test: /\.svg$/,
-          loader: 'vue-svg-loader'
-        })
       }
+
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
+
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        loader: 'vue-svg-loader'
+      })
     }
   }
 }

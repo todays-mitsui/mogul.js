@@ -1,18 +1,9 @@
 <template>
-  <variable
-    v-if="expr.type === 'Variable'"
-    :label="expr.label"
-  />
+  <variable v-if="expr.type === 'Variable'" :label="expr.label" />
 
-  <combinator
-    v-else-if="expr.type === 'Combinator'"
-    :label="expr.label"
-  />
+  <combinator v-else-if="expr.type === 'Combinator'" :label="expr.label" />
 
-  <symbl
-    v-else-if="expr.type === 'Symbol'"
-    :label="expr.label"
-  />
+  <symbl v-else-if="expr.type === 'Symbol'" :label="expr.label" />
 
   <apply
     v-else-if="expr.type === 'Apply'"

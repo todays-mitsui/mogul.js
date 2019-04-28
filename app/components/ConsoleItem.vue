@@ -12,20 +12,11 @@
     :body="values.body"
   />
 
-  <found
-    v-else-if="type === 'Found'"
-    :name="values.name"
-    :body="values.body"
-  />
+  <found v-else-if="type === 'Found'" :name="values.name" :body="values.body" />
 
-  <undefined
-    v-else-if="type === 'Undefined'"
-    :name="values.name"
-  />
+  <undefined v-else-if="type === 'Undefined'" :name="values.name" />
 
-  <void
-    v-else-if="type === 'Void'"
-  />
+  <void v-else-if="type === 'Void'" />
 
   <parse-error
     v-else-if="type === 'ParseError'"

@@ -18,7 +18,7 @@ header {
 
 h1 {
   height: 100%;
-  margin: 0 .4em;
+  margin: 0 0.4em;
   padding: 10px 0;
 
   color: #fff;

@@ -33,15 +33,19 @@ export default {
     ContextPanel
   },
 
+  computed: {
+    ...mapGetters([
+      'contextPanelWidth',
+      'minContextPanelWidth',
+      'maxContextPanelWidth'
+    ])
+  },
+
   asyncData() {
     return {
       minWidth: 60,
       maxWidth: ~~(window.innerWidth / 2)
     }
-  },
-
-  computed: {
-    ...mapGetters(['contextPanelWidth', 'minContextPanelWidth', 'maxContextPanelWidth'])
   },
 
   methods: {

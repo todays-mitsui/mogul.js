@@ -1,8 +1,6 @@
 <template>
   <div class="easy-open-ends">
-    <button
-      @click="toggleContextPanel"
-    >
+    <button @click="toggleContextPanel">
       <function-icon />
       <!-- eslint-disable-next-line -->
       <span class="times">×</span>
@@ -43,7 +41,7 @@ export default {
 }
 
 button {
-  padding: .2em .8em;
+  padding: 0.2em 0.8em;
 
   color: #fff;
 

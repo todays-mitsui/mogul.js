@@ -1,10 +1,15 @@
-import { Calculator, FromJSONContextLoader, es2015StyleParser as parser } from 'tuber'
+import {
+  Calculator,
+  FromJSONContextLoader,
+  es2015StyleParser as parser
+} from 'tuber'
 import defaultContextSrc from '~/assets/DefaultContext.json'
 
 const MIN_WIDTH = 60
 
 export const state = () => {
-  const contextPanelWidth = window.innerWidth < 1200 ? MIN_WIDTH : ~~(window.innerWidth / 2)
+  const contextPanelWidth =
+    window.innerWidth < 1200 ? MIN_WIDTH : ~~(window.innerWidth / 2)
 
   return {
     console: [],
@@ -32,7 +37,7 @@ export const mutations = {
       sequence: sequence.map(expr => expr.toJSON()),
       last: !!last,
       done,
-      timestamp: (new Date()).getTime()
+      timestamp: new Date().getTime()
     })
   },
 
@@ -43,7 +48,7 @@ export const mutations = {
       type: 'Defined',
       name: identifier,
       body: callable.toJSON(),
-      timestamp: (new Date()).getTime()
+      timestamp: new Date().getTime()
     })
   },
 
@@ -60,7 +65,7 @@ export const mutations = {
           label: identifier
         }
       },
-      timestamp: (new Date()).getTime()
+      timestamp: new Date().getTime()
     })
   },
 
@@ -72,13 +77,13 @@ export const mutations = {
         type: 'Found',
         name: identifier,
         body: callable.toJSON(),
-        timestamp: (new Date()).getTime()
+        timestamp: new Date().getTime()
       })
     } else {
       state.console.push({
         type: 'Undefined',
         name: identifier,
-        timestamp: (new Date()).getTime()
+        timestamp: new Date().getTime()
       })
     }
   },

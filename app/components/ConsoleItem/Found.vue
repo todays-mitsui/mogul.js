@@ -47,12 +47,12 @@ export default {
 .console .found li {
   position: relative;
 
-  padding: .3em 0;
+  padding: 0.3em 0;
   padding-left: 1.4em;
 }
 
 .console .found li:first-child::before {
-  content: ">";
+  content: '>';
   transform: translateY(-50%);
 
   position: absolute;
@@ -63,7 +63,7 @@ export default {
   width: 16px;
 
   color: #999;
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: 600;
   text-align: right;
 }

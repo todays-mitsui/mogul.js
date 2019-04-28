@@ -1,6 +1,6 @@
-# Mogul
+# momogul.js
 
-> An interpreter that evaluates λ-calculations step by step.
+> evaluates λ-calculations step by step.
 
 ## Build Setup
 

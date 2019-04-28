@@ -2,14 +2,8 @@
   <div class="context-panel">
     <div class="inner">
       <ol>
-        <li
-          v-for="[name, body] in context"
-          :key="name"
-        >
-          <callable
-            :name="name"
-            :body="body"
-          />
+        <li v-for="[name, body] in context" :key="name">
+          <callable :name="name" :body="body" />
         </li>
       </ol>
     </div>
@@ -53,18 +47,18 @@ ol {
 li {
   position: relative;
   margin: 0;
-  padding: .3em 0 .3em 2.8em;
+  padding: 0.3em 0 0.3em 2.8em;
 }
 li:nth-child(even) {
   background-color: #efefef;
 }
 li::before {
   counter-increment: context-item;
-  content: counter(context-item) ".";
+  content: counter(context-item) '.';
 
   position: absolute;
   top: 50%;
-  left: .4em;
+  left: 0.4em;
   z-index: 1000;
 
   transform: translate(0, -50%);
@@ -72,7 +66,7 @@ li::before {
   width: 2.8em;
 
   color: #aaa;
-  font-size: .8em;
+  font-size: 0.8em;
   text-align: right;
 }
 </style>

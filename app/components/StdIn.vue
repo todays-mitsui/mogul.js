@@ -1,7 +1,5 @@
 <template>
-  <div
-    :class="{ 'std-in': true, focus }"
-  >
+  <div :class="{ 'std-in': true, focus }">
     <p class="prompt">
       &gt;
     </p>
@@ -12,8 +10,8 @@
       @focus="focus = true"
       @blur="focus = false"
       @keydown.shift.enter="onShiftEnter"
-      @keydown.enter="onEnter"
-      @keydown.up="onUp"
+      @keydown.enter.exact="onEnter"
+      @keydown.up.exact="onUp"
     />
   </div>
 </template>
@@ -36,7 +34,7 @@ export default {
   },
 
   methods: {
-    onEnter: function (event) {
+    onEnter: function(event) {
       if (event.shiftKey) {
         return
       }
@@ -48,12 +46,12 @@ export default {
       this.input = ''
     },
 
-    onShiftEnter: function (event) {
+    onShiftEnter: function(event) {
       console.info('Shift + Enter')
       console.log(event)
     },
 
-    onUp: function (event) {
+    onUp: function(event) {
       console.info('Up')
       console.info(event.target.selectionStart)
     }
@@ -71,7 +69,7 @@ export default {
   border-top: 1px solid #ccc;
 }
 .std-in.focus {
-  box-shadow:0px 0px 3px 1px #adf inset;
+  box-shadow: 0px 0px 3px 1px #adf inset;
 }
 
 .prompt {

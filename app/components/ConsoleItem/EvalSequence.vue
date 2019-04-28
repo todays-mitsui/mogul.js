@@ -13,16 +13,14 @@
         <li><expr :expr="lastExpr" /></li>
       </template>
       <template v-else>
-        <li
-          v-for="(expr, i) in sequence"
-          :key="i"
-        >
+        <li v-for="(expr, i) in sequence" :key="i">
           <expr :expr="expr" />
         </li>
       </template>
     </ol>
     <p class="summary">
-      {{ sequence.length }} {{ sequence.length > 1 ? 'steps' : 'step' }}, {{ done ? 'done.' : 'continued...' }}
+      {{ sequence.length }} {{ sequence.length > 1 ? 'steps' : 'step' }},
+      {{ done ? 'done.' : 'continued...' }}
     </p>
   </div>
 </template>
@@ -73,7 +71,7 @@ export default {
 .console .eval-sequence li {
   position: relative;
 
-  padding: .3em 0;
+  padding: 0.3em 0;
 }
 
 .console .eval-sequence li:first-child {
@@ -96,25 +94,25 @@ export default {
 }
 
 .console .eval-sequence li:first-child::before {
-  content: ">";
+  content: '>';
   transform: translateY(-50%);
 
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: 600;
   text-align: right;
 }
 
 .console .eval-sequence li:not(:first-child):not(.show-btn)::before {
-  content: "→";
+  content: '→';
   left: 20px;
   transform: translateY(-25%);
 
   text-align: center;
 }
 .console .eval-sequence li:not(:first-child):not(.show-btn)::after {
-  content: "β";
+  content: 'β';
   left: 20px;
-  transform: translateY(-75%) scale(.8);
+  transform: translateY(-75%) scale(0.8);
 
   font-size: 10px;
   text-align: center;
@@ -152,7 +150,7 @@ export default {
 }
 /* 途中省略の破線 */
 .console .eval-sequence li.show-btn::before {
-  content: "";
+  content: '';
 
   position: absolute;
   left: 0;
@@ -175,7 +173,7 @@ export default {
 
 .console .summary {
   margin: 0;
-  padding: 0 .6em .2em;
+  padding: 0 0.6em 0.2em;
 
   font-size: 12px;
   text-align: right;
