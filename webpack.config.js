@@ -1,22 +1,20 @@
-const path = require('path');
-const VueLoaderPlugin   = require('vue-loader/lib/plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   mode: 'development',
   entry: './src/js/main.js',
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'public/js'),
+    path: path.join(__dirname, 'public/js')
   },
-  plugins: [
-    new VueLoaderPlugin(),
-  ],
+  plugins: [new VueLoaderPlugin()],
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
 
       {
@@ -29,16 +27,13 @@ module.exports = {
 
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader',
-        ]
-      },
-    ],
+        use: ['vue-style-loader', 'css-loader']
+      }
+    ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-    },
-  },
-};
+      vue$: 'vue/dist/vue.esm.js'
+    }
+  }
+}
