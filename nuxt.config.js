@@ -67,9 +67,9 @@ export default {
         })
       }
 
-      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
 
-      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/
 
       config.module.rules.push({
         test: /\.svg$/,
