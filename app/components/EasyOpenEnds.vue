@@ -1,5 +1,5 @@
 <template>
-  <div class="easy-open-ends">
+  <div :class="{ 'easy-open-ends': true, active }">
     <button @click="toggleContextPanel">
       <function-icon />
       <!-- eslint-disable-next-line -->
@@ -20,7 +20,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['contextLength'])
+    active() {
+      return !this.contextPanelResizable && this.contextPanelShown
+    },
+
+    ...mapGetters([
+      'contextLength',
+      'contextPanelResizable',
+      'contextPanelShown'
+    ])
   },
 
   methods: {
@@ -34,7 +42,7 @@ export default {
   position: absolute;
   top: 10px;
   right: 0;
-  z-index: 1000;
+  z-index: 3000;
 
   transform-origin: right bottom;
   transform: rotate(-90deg);
@@ -69,5 +77,19 @@ path {
 span {
   font-family: 'Source Code Pro', monospace;
   vertical-align: middle;
+}
+
+.active button {
+  color: #e96;
+
+  border-top: 1px solid #e96;
+  border-left: 1px solid #e96;
+  border-right: 1px solid #e96;
+
+  background: #fff;
+}
+
+.active path {
+  fill: #e96;
 }
 </style>

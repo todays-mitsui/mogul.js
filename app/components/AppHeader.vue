@@ -8,14 +8,25 @@
     <nav>
       <ul>
         <li>
-          <a href="https://github.com/todays-mitsui/mogul.js" target="_blank"
-            >Github</a
-          >
+          <a href="https://github.com/todays-mitsui/mogul.js" target="_blank">
+            <github-sign class="icon" />
+            <span class="text">Github</span>
+          </a>
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<script>
+import GithubSign from '~/assets/img/github_sign.svg'
+
+export default {
+  components: {
+    GithubSign
+  }
+}
+</script>
 
 <style scoped>
 header {
@@ -79,5 +90,41 @@ nav a {
 }
 nav a:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon {
+  display: none;
+
+  width: 24px;
+  height: 24px;
+}
+.icon path {
+  fill: #fff;
+}
+
+@media screen and (max-width: 760px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  nav li {
+    border: none;
+  }
+
+  nav a {
+    padding: 0 16px;
+  }
+
+  nav .icon {
+    display: inline;
+  }
+
+  nav .text {
+    display: none;
+  }
 }
 </style>

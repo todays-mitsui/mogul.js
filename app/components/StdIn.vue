@@ -5,6 +5,7 @@
     </p>
     <textarea
       v-model="input"
+      ref="stdin"
       autofocus
       :placeholder="focus ? '' : '_'"
       @focus="focus = true"
@@ -13,6 +14,7 @@
       @keydown.enter.exact="onEnter"
       @keydown.up.exact="onUp"
     />
+    <button @click.prevent="onEnter" class="run">Run</button>
   </div>
 </template>
 
@@ -44,6 +46,8 @@ export default {
       this.$store.dispatch('run', { input: this.input })
 
       this.input = ''
+
+      this.$refs.stdin.focus()
     },
 
     onShiftEnter: function(event) {
@@ -99,5 +103,24 @@ textarea {
   box-shadow: none;
   outline: none;
   resize: none;
+}
+
+.run {
+  display: none;
+
+  color: #fff;
+  font-weight: 700;
+
+  border: none;
+
+  background-image: linear-gradient(to right top, #e96, #ee8166);
+
+  cursor: pointer;
+}
+
+@media screen and (max-width: 760px) {
+  .run {
+    display: block;
+  }
 }
 </style>

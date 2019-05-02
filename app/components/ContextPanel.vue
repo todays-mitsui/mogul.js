@@ -48,6 +48,8 @@ li {
   position: relative;
   margin: 0;
   padding: 0.3em 0 0.3em 2.8em;
+
+  background-color: #fff;
 }
 li:nth-child(even) {
   background-color: #efefef;

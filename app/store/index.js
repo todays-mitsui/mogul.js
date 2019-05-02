@@ -15,6 +15,8 @@ export const state = () => {
     console: [],
     calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
     history: [],
+    contextPanelResizable: true,
+    contextPanelShown: false,
     contextPanelWidth
   }
 }
@@ -23,7 +25,12 @@ export const getters = {
   context: state => state.calculator.context,
   contextLength: state => state.calculator.context.length,
 
-  contextPanelWidth: state => state.contextPanelWidth,
+  contextPanelResizable: state => state.contextPanelResizable,
+  contextPanelShown: state => state.contextPanelShown,
+
+  contextPanelWidth: state => {
+    return state.contextPanelResizable ? state.contextPanelWidth : 0
+  },
   minContextPanelWidth: () => MIN_WIDTH,
   maxContextPanelWidth: () => window.innerWidth - MIN_WIDTH
 }
@@ -102,11 +109,23 @@ export const mutations = {
     })
   },
 
+  enableContextPanelResize(state) {
+    state.contextPanelResizable = true
+  },
+
+  disableContextPanelResize(state) {
+    state.contextPanelResizable = false
+  },
+
   toggleContextPanel(state) {
-    if (state.contextPanelWidth <= MIN_WIDTH) {
-      state.contextPanelWidth = ~~(window.innerWidth / 2)
+    if (state.contextPanelResizable) {
+      if (state.contextPanelWidth <= MIN_WIDTH) {
+        state.contextPanelWidth = ~~(window.innerWidth / 2)
+      } else {
+        state.contextPanelWidth = MIN_WIDTH
+      }
     } else {
-      state.contextPanelWidth = MIN_WIDTH
+      state.contextPanelShown = !state.contextPanelShown
     }
   },
 
@@ -174,6 +193,14 @@ export const actions = {
       default:
         console.log('### default ###')
     }
+  },
+
+  enableContextPanelResize({ commit }) {
+    commit('enableContextPanelResize')
+  },
+
+  disableContextPanelResize({ commit }) {
+    commit('disableContextPanelResize')
   },
 
   toggleContextPanel({ commit }) {
