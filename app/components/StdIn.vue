@@ -4,8 +4,8 @@
       &gt;
     </p>
     <textarea
-      v-model="input"
       ref="stdin"
+      v-model="input"
       autofocus
       :placeholder="focus ? '' : '_'"
       @focus="focus = true"
@@ -14,7 +14,7 @@
       @keydown.enter.exact="onEnter"
       @keydown.up.exact="onUp"
     />
-    <button @click.prevent="onEnter" class="run">Run</button>
+    <button class="run" @click.prevent="onEnter">Run</button>
   </div>
 </template>
 
