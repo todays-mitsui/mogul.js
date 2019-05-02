@@ -110,6 +110,7 @@ export default {
   top: 58px;
   z-index: 2000;
 
+  width: 100%;
   height: calc(100% - 60px);
 
   overflow-y: scroll;
