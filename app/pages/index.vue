@@ -111,7 +111,7 @@ export default {
   z-index: 2000;
 
   width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 58px);
 
   overflow-y: scroll;
 }
