@@ -51,7 +51,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
+  modules: ['@nuxtjs/google-analytics'],
 
   server: {
     port: 3333
@@ -84,5 +84,9 @@ export default {
         loader: 'vue-svg-loader'
       })
     }
+  },
+
+  googleAnalytics: {
+    id: 'UA-139530560-1'
   }
 }
