@@ -2,7 +2,7 @@
 
 evaluates λ-calculations step by step.
 
-![Mogul 実行イメージ](https://mogul-a2928.firebaseapp.com/screenshots.png)
+![Mogul 実行イメージ](https://mogul-a2928.firebaseapp.com/screenshot.png)
 
 ## Example
 
