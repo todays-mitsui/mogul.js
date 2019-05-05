@@ -20,8 +20,16 @@ export default {
       { hid: 'twitter:site', name: 'twitter:site', content: '@__Mitsui' },
       { hid: 'og:url', property: 'og:url', content: BASE_URL },
       { hid: 'og:title', property: 'og:title', content: 'Mogul lang' },
-      { hid: 'og:description', property: 'og:description', content: pkg.description },
-      { hid: 'og:image', property: 'og:image', content: `${BASE_URL}/og_image.png` },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: pkg.description
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: `${BASE_URL}/og_image.png`
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -46,7 +54,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '~/plugins/persistedstate.js', ssr: false }],
 
   /*
    ** Nuxt.js modules

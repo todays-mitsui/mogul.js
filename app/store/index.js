@@ -23,7 +23,8 @@ export const state = () => {
 
 export const getters = {
   context: state => state.calculator.context,
-  contextLength: state => state.calculator.context.length,
+  contextLength: state =>
+    state.calculator.context ? state.calculator.context.length : 0,
 
   contextPanelResizable: state => state.contextPanelResizable,
   contextPanelShown: state => state.contextPanelShown,

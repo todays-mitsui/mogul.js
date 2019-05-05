@@ -19,7 +19,8 @@
     "lodash": "^4.17.11",
     "nuxt": "^2.4.0",
     "tuber": "git+https://github.com/todays-mitsui/tuber.git#master",
-    "vue-resize-split-pane": "^0.1.5"
+    "vue-resize-split-pane": "^0.1.5",
+    "vuex-persistedstate": "git+https://github.com/todays-mitsui/vuex-persistedstate.git#master"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
