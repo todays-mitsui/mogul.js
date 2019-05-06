@@ -86,3 +86,5 @@ sw.*
 .firebase/
 
 .DS_Store
+
+build/config.gypi
