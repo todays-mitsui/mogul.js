@@ -1445,11 +1445,6 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
-"@types/ramda@^0.25.47":
-  version "0.25.51"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.25.51.tgz#d5421d0e190c56c64c112a761a85782fc971409d"
-  integrity sha512-xcmtfHIgF9SYjhGdsZR1nQslxG4hu0cIpFfLQ4CWdw3KzHvl7ki1AzFLQUkbDTG42ZN3ZsQfdRzXRlkAvbIy5Q==
-
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
@@ -9501,10 +9496,9 @@ tty-browserify@0.0.0:
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
 "tuber@git+https://github.com/todays-mitsui/tuber.git#master":
-  version "1.0.2"
-  resolved "git+https://github.com/todays-mitsui/tuber.git#031e8f6b63fc38d1c6b1a267e21155ca0c6f1230"
+  version "1.0.3"
+  resolved "git+https://github.com/todays-mitsui/tuber.git#e83aba9ee49db1ffbf55c0f54fc68382293787c4"
   dependencies:
-    "@types/ramda" "^0.25.47"
     immutable "^4.0.0-rc.12"
     parsimmon "^1.12.0"
 
