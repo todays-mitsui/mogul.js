@@ -17,7 +17,7 @@ export default ({ store, isHMR }) => {
         key: 'MogulState',
         reducer(state) {
           return {
-            console: state.console.slice(-21),
+            console: rison.encode_array(state.console.slice(-21)),
             contextPanelResizable: state.contextPanelResizable,
             contextPanelShown: state.contextPanelShown,
             contextPanelWidth: state.contextPanelWidth,
@@ -34,13 +34,16 @@ export default ({ store, isHMR }) => {
             }
 
             const state = JSON.parse(value)
-            console.log('state:', state)
+
             state.calculator = new Calculator({
               loader: new FromJSONContextLoader(
                 rison.decode_object(state.context)
               ),
               dumper: new ContextDumperV2()
             })
+
+            state.console = rison.decode_array(state.console)
+
             return state
           } catch (err) {
             console.error(err)

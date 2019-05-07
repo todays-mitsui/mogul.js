@@ -37,6 +37,8 @@ import MainPanel from '~/components/MainPanel.vue'
 import ContextPanel from '~/components/ContextPanel.vue'
 
 export default {
+  layout: 'app',
+
   components: {
     'rs-panes': ResSplitPane,
     MainPanel,
@@ -51,13 +53,6 @@ export default {
       'minContextPanelWidth',
       'maxContextPanelWidth'
     ])
-  },
-
-  asyncData() {
-    return {
-      minWidth: 60,
-      maxWidth: ~~(window.innerWidth / 2)
-    }
   },
 
   mounted() {
