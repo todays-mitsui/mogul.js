@@ -1,6 +1,7 @@
 import {
   Calculator,
   FromJSONContextLoader,
+  ContextDumperV2,
   es2015StyleParser as parser
 } from 'tuber'
 import defaultContextSrc from '~/assets/DefaultContext.json'
@@ -13,7 +14,10 @@ export const state = () => {
 
   return {
     console: [],
-    calculator: new Calculator(new FromJSONContextLoader(defaultContextSrc)),
+    calculator: new Calculator({
+      loader: new FromJSONContextLoader(defaultContextSrc),
+      dumper: new ContextDumperV2()
+    }),
     history: [],
     contextPanelResizable: true,
     contextPanelShown: false,

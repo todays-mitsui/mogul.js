@@ -250,7 +250,9 @@
         },
         {
             "name": "car",
-            "params": "x",
+            "params": [
+                "x"
+            ],
             "bareExpr": {
                 "type": "Apply",
                 "left": {
@@ -265,7 +267,9 @@
         },
         {
             "name": "cdr",
-            "params": "x",
+            "params": [
+                "x"
+            ],
             "bareExpr": {
                 "type": "Apply",
                 "left": {

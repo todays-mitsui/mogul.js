@@ -1,5 +1,6 @@
 import createPersistedState from 'vuex-persistedstate'
-import { Calculator, FromJSONContextLoader } from 'tuber'
+import { Calculator, FromJSONContextLoader, ContextDumperV2 } from 'tuber'
+import rison from 'rison'
 
 export default ({ store, isHMR }) => {
   // In case of HMR, mutation occurs before nuxReady, so previously saved state
@@ -20,7 +21,7 @@ export default ({ store, isHMR }) => {
             contextPanelResizable: state.contextPanelResizable,
             contextPanelShown: state.contextPanelShown,
             contextPanelWidth: state.contextPanelWidth,
-            context: state.calculator.dumpContext()
+            context: rison.encode_object(state.calculator.dumpContext())
           }
         },
 
@@ -33,9 +34,13 @@ export default ({ store, isHMR }) => {
             }
 
             const state = JSON.parse(value)
-            state.calculator = new Calculator(
-              new FromJSONContextLoader(state.context)
-            )
+            console.log('state:', state)
+            state.calculator = new Calculator({
+              loader: new FromJSONContextLoader(
+                rison.decode_object(state.context)
+              ),
+              dumper: new ContextDumperV2()
+            })
             return state
           } catch (err) {
             console.error(err)
