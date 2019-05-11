@@ -54,12 +54,15 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '~/plugins/persistedstate.js', ssr: false }],
+  plugins: [
+    { src: '~/plugins/persistedstate.js', ssr: false },
+    '~/plugins/firestore.js'
+  ],
 
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/google-analytics'],
+  modules: ['@nuxtjs/google-analytics', '@nuxtjs/dotenv'],
 
   server: {
     port: 3333
