@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {
   Calculator,
   FromJSONContextLoader,
@@ -9,11 +10,24 @@ import defaultContextSrc from '~/assets/DefaultContext.json'
 const MIN_WIDTH = 60
 
 export const state = () => {
+  const defaultInputs = [
+    's(k, k)(:x)',
+    '6(:f, :x)',
+    'and(true, or(false, true))',
+    'isZero(pred(pred(pred(3))))',
+    'eq(add(2, 1), 3)',
+    'myNumList = cons(1, cons(2, cons(3, Nil)))',
+    'flip(f) = x => y => f(y, x)',
+    '? add'
+  ]
+  const inputStr = _.sample(defaultInputs)
+
   const contextPanelWidth =
     window.innerWidth < 1200 ? MIN_WIDTH : ~~(window.innerWidth / 2)
 
   return {
     console: [],
+    inputStr,
     calculator: new Calculator({
       loader: new FromJSONContextLoader(defaultContextSrc),
       dumper: new ContextDumperV2()
@@ -41,12 +55,16 @@ export const getters = {
 }
 
 export const mutations = {
+  stdIn(state, { inputStr }) {
+    state.inputStr = inputStr
+  },
+
   runEval(state, { expr, last }) {
     const { sequence, done } = state.calculator.eval(expr)
 
     state.console.push({
       type: 'EvalSequence',
-      sequence: sequence.map(expr => expr.toJSON()),
+      sequence: sequence,
       last: !!last,
       done,
       timestamp: new Date().getTime()
@@ -59,7 +77,7 @@ export const mutations = {
     state.console.push({
       type: 'Defined',
       name: identifier,
-      body: callable.toJSON(),
+      body: callable,
       timestamp: new Date().getTime()
     })
   },
@@ -68,15 +86,8 @@ export const mutations = {
     state.calculator.del(identifier)
 
     state.console.push({
-      type: 'Defined',
+      type: 'Deleted',
       name: identifier,
-      body: {
-        params: [],
-        bareExpr: {
-          type: 'Combinator',
-          label: identifier
-        }
-      },
       timestamp: new Date().getTime()
     })
   },
@@ -88,7 +99,7 @@ export const mutations = {
       state.console.push({
         type: 'Found',
         name: identifier,
-        body: callable.toJSON(),
+        body: callable,
         timestamp: new Date().getTime()
       })
     } else {
@@ -140,6 +151,10 @@ export const mutations = {
 }
 
 export const actions = {
+  stdIn({ commit }, inputStr) {
+    commit('stdIn', { inputStr })
+  },
+
   run({ commit }, { input }) {
     if (!input) {
       commit('runVoid')

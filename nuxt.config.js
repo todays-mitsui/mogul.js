@@ -55,6 +55,8 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/freezeLines.js',
+    '~/plugins/restoreLines.js',
     { src: '~/plugins/persistedstate.js', ssr: false },
     '~/plugins/firestore.js'
   ],
@@ -62,7 +64,10 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/google-analytics', '@nuxtjs/dotenv'],
+  modules: [
+    '@nuxtjs/google-analytics',
+    ['@nuxtjs/dotenv', { path: '~/../', filename: '.env' }]
+  ],
 
   server: {
     port: 3333

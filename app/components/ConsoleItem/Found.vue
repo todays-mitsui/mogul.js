@@ -9,7 +9,7 @@
       <li>
         <callable
           :name="name"
-          :body="body"
+          :body="body.toJSON()"
           :update="true"
         />
       </li>

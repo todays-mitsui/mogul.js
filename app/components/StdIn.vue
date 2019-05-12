@@ -5,9 +5,10 @@
     </p>
     <textarea
       ref="stdin"
-      v-model="input"
+      :value="inputStr"
       autofocus
       :placeholder="focus ? '' : '_'"
+      @input="onInput"
       @focus="focus = true"
       @blur="focus = false"
       @keydown.shift.enter="onShiftEnter"
@@ -19,29 +20,23 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   data() {
-    const defaultInputs = [
-      's(k, k)(:x)',
-      '6(:f, :x)',
-      'and(true, or(false, true))',
-      'isZero(pred(pred(pred(3))))',
-      'eq(add(2, 1), 3)',
-      'myNumList = cons(1, cons(2, cons(3, Nil)))',
-      'flip(f) = x => y => f(y, x)',
-      '? add'
-    ]
+    return { focus: false }
+  },
 
-    return {
-      input: _.sample(defaultInputs),
-      focus: false
-    }
+  computed: {
+    ...mapState(['inputStr'])
   },
 
   methods: {
-    onEnter: function(event) {
+    onInput(event) {
+      this.stdIn(event.target.value)
+    },
+
+    onEnter(event) {
       if (event.shiftKey) {
         return
       }
@@ -55,15 +50,17 @@ export default {
       this.$refs.stdin.focus()
     },
 
-    onShiftEnter: function(event) {
+    onShiftEnter(event) {
       console.info('Shift + Enter')
       console.log(event)
     },
 
-    onUp: function(event) {
+    onUp(event) {
       console.info('Up')
       console.info(event.target.selectionStart)
-    }
+    },
+
+    ...mapActions(['stdIn'])
   }
 }
 </script>

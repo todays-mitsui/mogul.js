@@ -2,7 +2,7 @@
   <div class="defined">
     <ol>
       <li>
-        <callable :name="name" :body="body" />
+        <callable :name="name" :body="body.toJSON()" />
       </li>
     </ol>
     <p class="summary">

@@ -14,7 +14,7 @@
       </template>
       <template v-else>
         <li v-for="(expr, i) in sequence" :key="i">
-          <expr :expr="expr" />
+          <expr :expr="expr.toJSON()" />
         </li>
       </template>
     </ol>

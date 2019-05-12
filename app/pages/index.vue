@@ -1,24 +1,34 @@
 <template>
-  <div class="page-wrapper">
-    <rs-panes
-      split-to="columns"
-      :allow-resize="contextPanelResizable"
-      primary="second"
-      :size="contextPanelWidth"
-      :min-size="minContextPanelWidth"
-      :max-size="maxContextPanelWidth"
-      :resizer-thickness="2"
-      :resizer-border-thickness="2"
-      resizer-color="#ccc"
-      @update:size="onUpdateContextPanelWidth"
-    >
-      <div slot="firstPane" class="first-pane">
-        <main-panel />
+  <section>
+    <div class="app-wrapper">
+      <app-menu />
+
+      <div class="app-main">
+        <rs-panes
+          split-to="columns"
+          :allow-resize="contextPanelResizable"
+          primary="second"
+          :size="contextPanelWidth"
+          :min-size="minContextPanelWidth"
+          :max-size="maxContextPanelWidth"
+          :resizer-thickness="2"
+          :resizer-border-thickness="2"
+          resizer-color="#ccc"
+          @update:size="onUpdateContextPanelWidth"
+        >
+          <div slot="firstPane" class="first-pane">
+            <main-panel />
+          </div>
+          <div
+            v-if="contextPanelResizable"
+            slot="secondPane"
+            class="second-pane"
+          >
+            <context-panel />
+          </div>
+        </rs-panes>
       </div>
-      <div v-if="contextPanelResizable" slot="secondPane" class="second-pane">
-        <context-panel />
-      </div>
-    </rs-panes>
+    </div>
 
     <div
       v-if="!contextPanelResizable"
@@ -27,12 +37,13 @@
     >
       <context-panel />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ResSplitPane from 'vue-resize-split-pane'
+import AppMenu from '~/components/AppMenu.vue'
 import MainPanel from '~/components/MainPanel.vue'
 import ContextPanel from '~/components/ContextPanel.vue'
 
@@ -41,6 +52,7 @@ export default {
 
   components: {
     'rs-panes': ResSplitPane,
+    AppMenu,
     MainPanel,
     ContextPanel
   },
@@ -83,13 +95,31 @@ export default {
 }
 </script>
 
-<style>
-.pane-rs.root {
-  height: calc(100% - 60px);
+<style scoped>
+section {
+  height: 100%;
 }
-/* .pane-rs.root > .Pane {
-  transition: width 250ms;
-} */
+
+.app-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.app-menu {
+  flex-basis: 48px;
+}
+
+.app-main {
+  flex-grow: 1;
+
+  position: relative;
+
+  height: 100%;
+}
+
+.pane-rs.root {
+  height: 100%;
+}
 
 .first-pane,
 .second-pane {

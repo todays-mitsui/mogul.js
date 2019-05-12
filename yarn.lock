@@ -9955,8 +9955,8 @@ tty-browserify@0.0.0:
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
 
 "tuber@git+https://github.com/todays-mitsui/tuber.git#master":
-  version "1.0.3"
-  resolved "git+https://github.com/todays-mitsui/tuber.git#e83aba9ee49db1ffbf55c0f54fc68382293787c4"
+  version "1.0.4"
+  resolved "git+https://github.com/todays-mitsui/tuber.git#277329b4a60949ecfb49f30514af05fa5913b722"
   dependencies:
     immutable "^4.0.0-rc.12"
     parsimmon "^1.12.0"
