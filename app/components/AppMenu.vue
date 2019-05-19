@@ -18,7 +18,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import rison from 'rison'
 import ShareIcon from '~/assets/img/share_icon.svg'
 import ShareModal from '~/components/Modal/ShareModal.vue'
 
@@ -42,33 +41,11 @@ export default {
     publishPermalink(option) {
       this.showShareModal = false
 
-      const docRef = this.$firestore.collection('snapshots').add({
-        context: option.saveContext
-          ? rison.encode_object(this.calculator.dumpContext())
-          : rison.encode_object({
-              version: '2.0',
-              context: []
-            }),
-
-        lines: option.saveLines
-          ? rison.encode_array(this.$freezeLines(this.console))
-          : rison.encode_array([]),
-
-        inputStr: option.saveInputStr ? this.inputStr : '',
-
-        createdAt: new Date()
+      this.$store.dispatch('firestore/saveSnapshot', {
+        saveLines: option.saveLines,
+        saveCommandInput: option.saveInputStr,
+        saveContext: option.saveContext
       })
-
-      docRef
-        .then(doc => {
-          console.log('then:', doc.id)
-
-          const id = doc.id
-          this.$router.push(`/p/${id}/`)
-        })
-        .catch(err => {
-          console.error('catch:', err)
-        })
     }
   }
 }

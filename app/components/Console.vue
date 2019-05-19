@@ -21,7 +21,9 @@ export default {
   },
 
   computed: {
-    ...mapState(['console'])
+    ...mapState({
+      console: state => state.lines.lines
+    })
   },
 
   methods: {

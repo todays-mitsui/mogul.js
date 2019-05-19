@@ -11,7 +11,7 @@
           />コンテキスト</label
         >
         <label
-          ><input v-model="saveInputStr" type="checkbox" />プロンプト</label
+          ><input v-model="saveCommandInput" type="checkbox" />プロンプト</label
         >
         <label><input v-model="saveLines" type="checkbox" />実行結果</label>
       </fieldset>
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       saveContext: true,
-      saveInputStr: true,
+      saveCommandInput: true,
       saveLines: false
     }
   },
@@ -48,7 +48,7 @@ export default {
     onSubmit() {
       this.$emit('submit', {
         saveContext: this.saveContext,
-        saveInputStr: this.saveInputStr,
+        saveCommandInput: this.saveCommandInput,
         saveLines: this.saveLines
       })
     }

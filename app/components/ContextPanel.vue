@@ -20,7 +20,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['context'])
+    ...mapGetters({
+      context: 'calculator/context'
+    })
   }
 }
 </script>

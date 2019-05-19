@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import FunctionIcon from '~/assets/img/function_icon.svg'
 
 export default {
@@ -21,18 +21,23 @@ export default {
 
   computed: {
     active() {
-      return !this.contextPanelResizable && this.contextPanelShown
+      return !this.resizable && this.shown
     },
 
-    ...mapGetters([
-      'contextLength',
-      'contextPanelResizable',
-      'contextPanelShown'
-    ])
+    ...mapState({
+      resizable: state => state.contextPanel.resizable,
+      shown: state => state.contextPanel.shown
+    }),
+
+    ...mapGetters({
+      contextLength: 'calculator/contextLength'
+    })
   },
 
   methods: {
-    ...mapActions(['toggleContextPanel'])
+    ...mapActions({
+      toggleContextPanel: 'contextPanel/toggle'
+    })
   }
 }
 </script>

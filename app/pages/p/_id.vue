@@ -62,8 +62,8 @@ export default {
     })
   },
 
-  async fetch({ store }) {
-    await store.dispatch('calculator/loadDefaultContext')
+  async fetch({ params, store }) {
+    await store.dispatch('firestore/loadSnapshot', params.id)
   },
 
   mounted() {

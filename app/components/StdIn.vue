@@ -5,7 +5,7 @@
     </p>
     <textarea
       ref="stdin"
-      :value="inputStr"
+      :value="commandInput"
       autofocus
       :placeholder="focus ? '' : '_'"
       @input="onInput"
@@ -28,12 +28,14 @@ export default {
   },
 
   computed: {
-    ...mapState(['inputStr'])
+    ...mapState({
+      commandInput: state => state.commandInput.value
+    })
   },
 
   methods: {
     onInput(event) {
-      this.stdIn(event.target.value)
+      this.update(event.target.value)
     },
 
     onEnter(event) {
@@ -43,9 +45,8 @@ export default {
 
       event.preventDefault()
 
-      this.$store.dispatch('run', { input: this.input })
-
-      this.input = ''
+      this.$store.dispatch('calculator/run', this.commandInput)
+      this.$store.dispatch('commandInput/clear')
 
       this.$refs.stdin.focus()
     },
@@ -60,7 +61,9 @@ export default {
       console.info(event.target.selectionStart)
     },
 
-    ...mapActions(['stdIn'])
+    ...mapActions({
+      update: 'commandInput/update'
+    })
   }
 }
 </script>
