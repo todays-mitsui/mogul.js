@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>Mogul</h1>
+    <h1><nuxt-link to="/">Mogul</nuxt-link></h1>
     <p class="description">
       evaluates λ-calculations step by step.
     </p>
@@ -35,6 +35,11 @@ header {
   height: 60px;
 
   background-image: linear-gradient(to right top, #e96, #ee8166);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 h1 {
