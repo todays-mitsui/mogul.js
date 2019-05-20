@@ -55,8 +55,6 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/freezeLines.js',
-    '~/plugins/restoreLines.js',
     { src: '~/plugins/persistedstate.js', ssr: false },
     '~/plugins/firestore.js'
   ],

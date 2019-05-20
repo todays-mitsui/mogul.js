@@ -1,8 +1,10 @@
 import createPersistedState from 'vuex-persistedstate'
-import { Calculator, FromJSONContextLoader, ContextDumperV2 } from 'tuber'
 import rison from 'rison'
 
-export default ({ app, store, route, isHMR }) => {
+import { Calculator, FromJSONContextLoader, ContextDumperV2 } from 'tuber'
+import { freezeLines, restoreLines } from '../lib/lines'
+
+export default ({ store, route, isHMR }) => {
   // In case of HMR, mutation occurs before nuxReady, so previously saved state
   // gets replaced with original state received from server. So, we've to skip HMR.
   // Also nuxtReady event fires for HMR as well, which results multiple registration of
@@ -17,10 +19,9 @@ export default ({ app, store, route, isHMR }) => {
         key: 'MogulState',
 
         reducer(state) {
-          console.log(app.$freezeLines(state.lines.lines.slice(-21)))
           return {
             lines: rison.encode_array(
-              app.$freezeLines(state.lines.lines.slice(-21))
+              freezeLines(state.lines.lines.slice(-21))
             ),
             commandInput: state.commandInput,
             contextPanel: state.contextPanel,
@@ -52,7 +53,7 @@ export default ({ app, store, route, isHMR }) => {
             })
             state.calculator = { calculator }
 
-            const lines = app.$restoreLines(rison.decode_array(state.lines))
+            const lines = restoreLines(rison.decode_array(state.lines))
             state.lines = { lines }
 
             return state
