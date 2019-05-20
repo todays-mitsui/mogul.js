@@ -1,6 +1,6 @@
 import pkg from './package'
 
-const BASE_URL = 'https://mogul-a2928.firebaseapp.com'
+const BASE_URL = 'https://mogul-lang.mudatobunka.org'
 
 export default {
   mode: 'spa',
