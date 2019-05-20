@@ -43,7 +43,7 @@ export default {
 
       this.$store.dispatch('firestore/saveSnapshot', {
         saveLines: option.saveLines,
-        saveCommandInput: option.saveInputStr,
+        saveCommandInput: option.saveCommandInput,
         saveContext: option.saveContext
       })
     }
@@ -53,8 +53,8 @@ export default {
 
 <style scoped>
 .app-menu {
+  flex-basis: 40px;
   border-right: 2px solid #ccc;
-
   background-color: #eee;
 }
 
@@ -66,14 +66,14 @@ ul {
 
 button {
   width: 100%;
-  height: 48px;
+  height: 40px;
 
   border: none;
   background: none;
   cursor: pointer;
 }
 svg {
-  width: 30px;
+  width: 22px;
 }
 path {
   fill: #999;

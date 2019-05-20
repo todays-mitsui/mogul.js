@@ -104,10 +104,6 @@ section {
   height: 100%;
 }
 
-.app-menu {
-  flex-basis: 48px;
-}
-
 .app-main {
   flex-grow: 1;
 
