@@ -2,7 +2,6 @@ import { Expr, Callable } from 'tuber'
 
 export default (context, inject) => {
   inject('restoreLines', items => {
-    console.log(items)
     return items.map(item => {
       switch (item.type) {
         case 'EvalSequence':

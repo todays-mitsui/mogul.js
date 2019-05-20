@@ -2,7 +2,7 @@ import createPersistedState from 'vuex-persistedstate'
 import { Calculator, FromJSONContextLoader, ContextDumperV2 } from 'tuber'
 import rison from 'rison'
 
-export default ({ app, store, isHMR }) => {
+export default ({ app, store, route, isHMR }) => {
   // In case of HMR, mutation occurs before nuxReady, so previously saved state
   // gets replaced with original state received from server. So, we've to skip HMR.
   // Also nuxtReady event fires for HMR as well, which results multiple registration of
@@ -11,21 +11,22 @@ export default ({ app, store, isHMR }) => {
     return
   }
 
-  if (process.client) {
+  if (process.client && route.path === '/') {
     window.onNuxtReady(nuxt => {
       createPersistedState({
         key: 'MogulState',
 
         reducer(state) {
-          console.log(app.$freezeLines(state.console.slice(-21)))
+          console.log(app.$freezeLines(state.lines.lines.slice(-21)))
           return {
-            console: rison.encode_array(
-              app.$freezeLines(state.console.slice(-21))
+            lines: rison.encode_array(
+              app.$freezeLines(state.lines.lines.slice(-21))
             ),
-            contextPanelResizable: state.contextPanelResizable,
-            contextPanelShown: state.contextPanelShown,
-            contextPanelWidth: state.contextPanelWidth,
-            context: rison.encode_object(state.calculator.dumpContext())
+            commandInput: state.commandInput,
+            contextPanel: state.contextPanel,
+            context: rison.encode_object(
+              state.calculator.calculator.dumpContext()
+            )
           }
         },
 
@@ -43,14 +44,16 @@ export default ({ app, store, isHMR }) => {
               return undefined
             }
 
-            state.calculator = new Calculator({
+            const calculator = new Calculator({
               loader: new FromJSONContextLoader(
                 rison.decode_object(state.context)
               ),
               dumper: new ContextDumperV2()
             })
+            state.calculator = { calculator }
 
-            state.console = app.$restoreLines(rison.decode_array(state.console))
+            const lines = app.$restoreLines(rison.decode_array(state.lines))
+            state.lines = { lines }
 
             return state
           } catch (err) {
