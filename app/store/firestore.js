@@ -2,6 +2,8 @@ import rison from 'rison'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+import { freezeLines, restoreLines } from '../lib/lines'
+
 const config = {
   apiKey: process.env.FB_API_KEY,
   authDomain: process.env.FB_AUTH_DOMAIN,
@@ -30,7 +32,7 @@ export const actions = {
         }
     const encodedContext = rison.encode_object(context)
 
-    const lines = saveLines ? rootState.lines.lines : []
+    const lines = saveLines ? freezeLines(rootState.lines.lines) : []
     const encodedLines = rison.encode_array(lines)
 
     const commandInput = saveCommandInput ? rootState.commandInput.value : ''
@@ -53,29 +55,25 @@ export const actions = {
       })
   },
 
-  loadSnapshot({ dispatch }, id) {
-    firestore
+  async loadSnapshot({ dispatch }, id) {
+    const doc = await firestore
       .collection('snapshots')
       .doc(id)
       .get()
-      .then(doc => {
-        if (!doc.exists) {
-          this.$router.push(`/`)
-        }
 
-        const { context, lines, commandInput } = doc.data()
+    if (!doc.exists) {
+      this.$router.push(`/`)
+    }
 
-        const decodedContext = rison.decode_object(context)
-        const decodedLines = rison.decode_array(lines)
+    const { context, lines, commandInput } = doc.data()
 
-        dispatch('calculator/loadContextFromJSON', decodedContext, {
-          root: true
-        })
-        dispatch('lines/replace', decodedLines, { root: true })
-        dispatch('commandInput/update', commandInput, { root: true })
-      })
-      .catch(err => {
-        console.error('error:', err)
-      })
+    const decodedContext = rison.decode_object(context)
+    const decodedLines = restoreLines(rison.decode_array(lines))
+
+    dispatch('calculator/loadContextFromJSON', decodedContext, {
+      root: true
+    })
+    dispatch('lines/replace', decodedLines, { root: true })
+    dispatch('commandInput/update', commandInput, { root: true })
   }
 }
