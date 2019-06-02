@@ -1,11 +1,7 @@
 <!-- eslint-disable -->
 <template>
-  <div class="undefined">
+  <div class="deleted">
     <ol>
-      <li>
-        <span class="q">?</span>
-        <span class="combinator">{{ name }}</span>
-      </li>
       <li>
         <span class="combinator">{{ name }}</span>
         <span class="eq">=</span>
@@ -13,7 +9,7 @@
       </li>
     </ol>
     <p class="summary">
-      undefined.
+      defined.
     </p>
   </div>
 </template>
@@ -30,18 +26,18 @@ export default {
 </script>
 
 <style>
-.console .undefined {
+.console .deleted {
   border-bottom: 1px solid #ccc;
 }
 
-.console .undefined li {
+.console .deleted li {
   position: relative;
 
   padding: 0.3em 0;
   padding-left: 1.4em;
 }
 
-.console .undefined li:first-child::before {
+.console .deleted li:first-child::before {
   content: '>';
   transform: translateY(-50%);
 

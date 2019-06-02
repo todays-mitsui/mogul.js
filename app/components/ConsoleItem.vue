@@ -16,6 +16,8 @@
 
   <undefined v-else-if="type === 'Undefined'" :name="values.name" />
 
+  <deleted v-else-if="type === 'Deleted'" :name="values.name" />
+
   <void v-else-if="type === 'Void'" />
 
   <parse-error
@@ -30,6 +32,7 @@ import EvalSequence from './ConsoleItem/EvalSequence.vue'
 import Defined from './ConsoleItem/Defined.vue'
 import Found from './ConsoleItem/Found.vue'
 import Undefined from './ConsoleItem/Undefined.vue'
+import Deleted from './ConsoleItem/Deleted.vue'
 import Void from './ConsoleItem/Void.vue'
 import ParseError from './ConsoleItem/ParseError.vue'
 
@@ -39,6 +42,7 @@ export default {
     Defined,
     Found,
     Undefined,
+    Deleted,
     Void,
     ParseError
   },
