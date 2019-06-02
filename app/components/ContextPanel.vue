@@ -3,6 +3,12 @@
     <div class="inner">
       <ol>
         <li v-for="[name, body] in context" :key="name">
+          <button
+            title="Context から削除する"
+            @click.prevent="delCombinator(name)"
+          >
+            <times-icon />
+          </button>
           <callable :name="name" :body="body" />
         </li>
       </ol>
@@ -11,17 +17,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Callable from './Callable.vue'
+import TimesIcon from '~/assets/img/times_icon.svg'
 
 export default {
   components: {
-    Callable
+    Callable,
+    TimesIcon
   },
 
   computed: {
     ...mapGetters({
       context: 'calculator/context'
+    })
+  },
+
+  methods: {
+    ...mapActions({
+      delCombinator: 'calculator/delCombinator'
     })
   }
 }
@@ -72,5 +86,43 @@ li::before {
   color: #aaa;
   font-size: 0.8em;
   text-align: right;
+}
+li:hover::before {
+  visibility: hidden;
+}
+
+li button {
+  display: none;
+
+  position: absolute;
+  top: 50%;
+  left: 1.2em;
+  z-index: 2000;
+
+  transform: translate(0, -50%);
+
+  margin: 0;
+  padding: 0;
+
+  width: 14px;
+  height: 14px;
+
+  line-height: 0;
+
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+li:hover button {
+  display: block;
+}
+
+li svg {
+  width: 100%;
+  height: 100%;
+}
+li svg path {
+  fill: #666;
 }
 </style>

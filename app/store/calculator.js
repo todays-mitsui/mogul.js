@@ -154,5 +154,19 @@ export const actions = {
       default:
         console.log('### default ###')
     }
+  },
+
+  delCombinator({ dispatch, commit }, name) {
+    commit('delCombinator', { name })
+
+    dispatch(
+      'lines/push',
+      {
+        type: 'Deleted',
+        name: name,
+        timestamp: new Date().getTime()
+      },
+      { root: true }
+    )
   }
 }
